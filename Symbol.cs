@@ -47,6 +47,8 @@ namespace SCL
         BRACE_END, //}
         COM, //Comma in between parameters/arguments
         CONST, //Reps constant either number or string
+
+        SOM,
     }
 
     internal class Symbol
