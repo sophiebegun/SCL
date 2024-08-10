@@ -69,8 +69,11 @@ namespace SCL
                     {
                         sb.Append(line[i]);
                         i++;
+
                     }
-                    result.Add(new Symbol(SymbolType.NAME, sb.ToString()));
+                   
+                    Symbol s = Map(sb.ToString());
+                    result.Add(s);
                     i--; // Adjust for the outer loop increment
                 }
                 else if (char.IsDigit(line[i]) || line[i] == '.')
@@ -141,6 +144,8 @@ namespace SCL
                 case "==": return new Symbol(SymbolType.COMP);
                 case ">=": return new Symbol(SymbolType.GTE);
                 case "<=": return new Symbol(SymbolType.LTE);
+                case "<": return new Symbol(SymbolType.LT);
+                case ">": return new Symbol(SymbolType.GT);
                 case "true": return new Symbol(SymbolType.TRUE);
                 case "false": return new Symbol(SymbolType.FALSE);
                 case "~": return new Symbol(SymbolType.SWIGGLE);
@@ -152,7 +157,7 @@ namespace SCL
 
             }
 
-            throw new Exception("Unknown token: " + s);
+            return new Symbol(SymbolType.NAME, s);
         }
 
     }

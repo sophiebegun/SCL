@@ -31,7 +31,9 @@ namespace SCL
         EQ, //Equal
         COMP, //Comparison
         GTE, //Greater than or equal to
+        GT, //Greater than
         LTE, //Less than or equal to
+        LT, //Less than
         TRUE, //True
         FALSE, //False
         PAREN_START, //(
@@ -48,7 +50,7 @@ namespace SCL
         COM, //Comma in between parameters/arguments
         CONST, //Reps constant either number or string
 
-        SOM,
+        
     }
 
     internal class Symbol
@@ -65,6 +67,22 @@ namespace SCL
         public Symbol(SymbolType type)
         {
             Type = type;
+        }
+
+
+        public bool IsDataType()
+        {
+            switch (Type)
+            {
+                case SymbolType.DT_BOOL:
+                case SymbolType.DT_INT:
+                case SymbolType.DT_LST:
+                case SymbolType.DT_STR:
+                case SymbolType.DT_MAP:
+                case SymbolType.DT_SET:
+                    return true;
+            }
+            return false;
         }
 
 

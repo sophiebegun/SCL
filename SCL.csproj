@@ -8,16 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="expr.scl">
+    <None Update="source\c1.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="assign.scl">
+    <None Update="source\c2.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="source\" />
+    <None Update="source\expr.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="source\assign.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
