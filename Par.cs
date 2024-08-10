@@ -109,14 +109,15 @@ namespace SCL
         {
             root = new ASTNode(ASTNodeType.Root);
             ASTNode parent = root;
-            return Parse(list, parent, 0, list.Count-1);
+            return Parse(list, parent);
 
         }
 
-        public ASTNode Parse(List<Symbol> list, ASTNode parent, int startIndex, int endIndex)
+        public ASTNode Parse(List<Symbol> list, ASTNode parent)
         {
-        
-            for(int i = startIndex; i<=endIndex; i++)
+            Stack<ASTNode> parentStack = new Stack<ASTNode>();
+
+            for (int i = 0; i< list.Count; i++)
             {
                 Symbol symbol = list[i];
 
@@ -175,14 +176,19 @@ namespace SCL
                     c.Exp = new Expression(expList);
                     c.Parent = parent;
                     parent.AddChild(c);
+                    parentStack.Push(parent); //Remember the previous parent
+                    //Reassign the parent
+                    parent = c;
+
+                    //Fast forward to beginning of the brace 
+                    while (list[i].Type != SymbolType.BRACE_START)
+                        i++;
 
                     //All subsequent statements within the braces are the children of this node c
-                    int endBraceIndex = FindEndBoundryIndex(list, j);
+                    //int endBraceIndex = FindEndBoundryIndex(list, j);
 
-                    for (int k = j + 1; k < endBraceIndex; k++)
-                    {
-                        Parse(list, c, k);
-                    }
+
+
 
                     continue;
                 }
@@ -192,6 +198,12 @@ namespace SCL
                 {
 
                 }
+                if (symbol.Type == SymbolType.BRACE_END) //This means you are out of the previous scope, time to resume and resume to previous parent
+                {
+                    if(parentStack.Count>0)
+                        parent = parentStack.Pop();
+                }
+
 
             }
 

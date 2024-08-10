@@ -15,5 +15,20 @@ namespace SCL
         {
             this.symbols = symbols;
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var symbol in symbols)
+            {
+                if (symbol.Value != null)
+                    sb.Append(symbol.Value);
+                else
+                    sb.Append(symbol.Type.ToString());
+            }
+
+            return " (" + sb.ToString() + ")";
+            
+        }
     }
 }

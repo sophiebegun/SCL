@@ -73,7 +73,10 @@ namespace SCL
                 indent += "| ";
             }
 
-            Console.WriteLine(NodeType.ToString());
+            if (Exp == null)
+                Console.WriteLine(NodeType.ToString());
+            else
+                Console.WriteLine(NodeType.ToString() + Exp.ToString());
 
             if (Children == null)
                 return;
