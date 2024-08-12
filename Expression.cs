@@ -21,10 +21,8 @@ namespace SCL
             StringBuilder sb = new StringBuilder();
             foreach (var symbol in symbols)
             {
-                if (symbol.Value != null)
-                    sb.Append(symbol.Value);
-                else
-                    sb.Append(symbol.Type.ToString());
+                sb.Append(symbol.Value);
+               
             }
 
             return " (" + sb.ToString() + ")";

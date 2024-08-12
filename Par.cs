@@ -130,7 +130,7 @@ namespace SCL
                     if (list[i+1].IsDataType())
                     {
                         s.DeclarationType = list[i + 1].Type;
-                        s.AssignmentVariable = list[i + 2].Value;
+                        s.Variable = list[i + 2].Value;
 
                         if (list[i + 3].Type != SymbolType.EQ)
                             throw new Exception("Expecting assignment operator = ");
@@ -140,7 +140,7 @@ namespace SCL
                     //This means this is an assignment
                     else
                     {
-                        s.AssignmentVariable = list[i + 1].Value;
+                        s.Variable = list[i + 1].Value;
                         if (list[i + 2].Type != SymbolType.EQ)
                             throw new Exception("Expecting assignment operator = ");
                         expOffset = i + 3;
@@ -161,46 +161,54 @@ namespace SCL
                     while (list[i].Type != SymbolType.EOL)
                         i++;
 
-                    continue;
+                    
                 }
                 
                 if (symbol.Type == SymbolType.C)
                 {
-                    ASTNode c = new ASTNode(ASTNodeType.C);
-
-                    int j = i + 1;
-                    List<Symbol> expList = new List<Symbol>();
-                    while (list[j].Type != SymbolType.BRACE_START)
-                        expList.Add(list[j++]);
+                    i = DoCL(list, ref parent, i, parentStack, ASTNodeType.C);
                     
-                    c.Exp = new Expression(expList);
-                    c.Parent = parent;
-                    parent.AddChild(c);
-                    parentStack.Push(parent); //Remember the previous parent
-                    //Reassign the parent
-                    parent = c;
-
-                    //Fast forward to beginning of the brace 
-                    while (list[i].Type != SymbolType.BRACE_START)
-                        i++;
-
-                    //All subsequent statements within the braces are the children of this node c
-                    //int endBraceIndex = FindEndBoundryIndex(list, j);
-
-
-
-
-                    continue;
                 }
                 
                 
                 if (symbol.Type == SymbolType.L)
                 {
+                    i = DoCL(list, ref parent, i, parentStack, ASTNodeType.L);
+                   
 
                 }
+                
+
+                if (symbol.Type == SymbolType.I)
+                {
+
+                    ASTNode input = new ASTNode(ASTNodeType.I);
+                    input.Variable = list[i+1].Value;
+
+                    input.Parent = parent;
+                    parent.AddChild(input);
+
+                }
+
+                if (symbol.Type == SymbolType.O)
+                {
+
+                    ASTNode output = new ASTNode(ASTNodeType.O);
+                    output.Variable = list[i + 1].Value;
+
+                    output.Parent = parent;
+                    parent.AddChild(output);
+
+                }
+
+                //if ()
+                //{
+                    
+                //}
+
                 if (symbol.Type == SymbolType.BRACE_END) //This means you are out of the previous scope, time to resume and resume to previous parent
                 {
-                    if(parentStack.Count>0)
+                    if (parentStack.Count > 0)
                         parent = parentStack.Pop();
                 }
 
@@ -212,7 +220,26 @@ namespace SCL
             return root;
         }
 
+        private static int DoCL(List<Symbol> list, ref ASTNode parent, int i, Stack<ASTNode> parentStack, ASTNodeType nt)
+        {
+            ASTNode n = new ASTNode(nt);
 
+            int j = i + 1;
+            List<Symbol> expList = new List<Symbol>();
+            while (list[j].Type != SymbolType.BRACE_START)
+                expList.Add(list[j++]);
+                    
+            n.Exp = new Expression(expList);
+            n.Parent = parent;
+            parent.AddChild(n);
+            parentStack.Push(parent); //Remember the previous parent
+            //Reassign the parent
+            parent = n;
 
+            //Fast forward to beginning of the brace 
+            while (list[i].Type != SymbolType.BRACE_START)
+                i++;
+            return i;
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace SCL
 {
     public enum SymbolType
     {
+        NONE, //No Symbol
         S, //State
         C, //Conditionality
         L, //Looping

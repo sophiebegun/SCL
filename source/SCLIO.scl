@@ -1,0 +1,12 @@
+﻿S int i = 0
+S int max = 0
+S i = i + 1
+I max
+L i > max
+{
+	C i == 4
+	{
+		~
+	}
+	O i
+}

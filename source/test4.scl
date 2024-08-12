@@ -1,0 +1,10 @@
+﻿S ﻿int i = 0
+S  = i+1
+L i < 10
+{
+	L i < 2
+		S int n = 0
+		S n = n + i.
+	S i = i + 1
+}
+# i

@@ -116,44 +116,44 @@ namespace SCL
 
             switch (s)
             {
-                case "S": return new Symbol(SymbolType.S);
-                case "C": return new Symbol(SymbolType.C);
-                case "L": return new Symbol(SymbolType.L);
-                case "F": return new Symbol(SymbolType.F);
-                case "I": return new Symbol(SymbolType.I);
-                case "O": return new Symbol(SymbolType.O);
-                case "int": return new Symbol(SymbolType.DT_INT);
-                case "str": return new Symbol(SymbolType.DT_STR);
-                case "hset": return new Symbol(SymbolType.DT_SET);
-                case "lst": return new Symbol(SymbolType.DT_LST);
-                case "hmap": return new Symbol(SymbolType.DT_MAP);
-                case "bool": return new Symbol(SymbolType.DT_BOOL);
+                case "S": return new Symbol(SymbolType.S, s);
+                case "C": return new Symbol(SymbolType.C, s);
+                case "L": return new Symbol(SymbolType.L, s);
+                case "F": return new Symbol(SymbolType.F, s);
+                case "I": return new Symbol(SymbolType.I, s);
+                case "O": return new Symbol(SymbolType.O, s);
+                case "int": return new Symbol(SymbolType.DT_INT, s);
+                case "str": return new Symbol(SymbolType.DT_STR, s);
+                case "hset": return new Symbol(SymbolType.DT_SET, s);
+                case "lst": return new Symbol(SymbolType.DT_LST, s);
+                case "hmap": return new Symbol(SymbolType.DT_MAP, s);
+                case "bool": return new Symbol(SymbolType.DT_BOOL, s);
 
-                case "^": return new Symbol(SymbolType.POW);
-                case "*": return new Symbol(SymbolType.MUL);
-                case "/": return new Symbol(SymbolType.DIV);
-                case "+": return new Symbol(SymbolType.PLUS);
-                case "-": return new Symbol(SymbolType.MINUS);
-                case "(": return new Symbol(SymbolType.PAREN_START);
-                case ")": return new Symbol(SymbolType.PAREN_END);
-                case "[": return new Symbol(SymbolType.BRACK_START);
-                case "]": return new Symbol(SymbolType.BRACK_END);
+                case "^": return new Symbol(SymbolType.POW, s);
+                case "*": return new Symbol(SymbolType.MUL, s);
+                case "/": return new Symbol(SymbolType.DIV, s);
+                case "+": return new Symbol(SymbolType.PLUS, s);
+                case "-": return new Symbol(SymbolType.MINUS, s);
+                case "(": return new Symbol(SymbolType.PAREN_START, s);
+                case ")": return new Symbol(SymbolType.PAREN_END, s);
+                case "[": return new Symbol(SymbolType.BRACK_START, s);
+                case "]": return new Symbol(SymbolType.BRACK_END, s);
 
-                case ",": return new Symbol(SymbolType.COM);
-                case "=": return new Symbol(SymbolType.EQ);
-                case "==": return new Symbol(SymbolType.COMP);
-                case ">=": return new Symbol(SymbolType.GTE);
-                case "<=": return new Symbol(SymbolType.LTE);
-                case "<": return new Symbol(SymbolType.LT);
-                case ">": return new Symbol(SymbolType.GT);
-                case "true": return new Symbol(SymbolType.TRUE);
-                case "false": return new Symbol(SymbolType.FALSE);
-                case "~": return new Symbol(SymbolType.SWIGGLE);
-                case "#": return new Symbol(SymbolType.HASHTAG);
-                case ":": return new Symbol(SymbolType.COLON);
-                case "!": return new Symbol(SymbolType.NOT);
-                case "{": return new Symbol(SymbolType.BRACE_START);
-                case "}": return new Symbol(SymbolType.BRACE_END);
+                case ",": return new Symbol(SymbolType.COM, s);
+                case "=": return new Symbol(SymbolType.EQ, s);
+                case "==": return new Symbol(SymbolType.COMP, s);
+                case ">=": return new Symbol(SymbolType.GTE, s);
+                case "<=": return new Symbol(SymbolType.LTE, s);
+                case "<": return new Symbol(SymbolType.LT, s);
+                case ">": return new Symbol(SymbolType.GT, s);
+                case "true": return new Symbol(SymbolType.TRUE, s);
+                case "false": return new Symbol(SymbolType.FALSE, s);
+                case "~": return new Symbol(SymbolType.SWIGGLE, s);
+                case "#": return new Symbol(SymbolType.HASHTAG, s);
+                case ":": return new Symbol(SymbolType.COLON, s);
+                case "!": return new Symbol(SymbolType.NOT, s);
+                case "{": return new Symbol(SymbolType.BRACE_START, s);
+                case "}": return new Symbol(SymbolType.BRACE_END, s);
 
             }
 

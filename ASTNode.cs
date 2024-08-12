@@ -26,10 +26,21 @@ namespace SCL
 
 
         #region "Declaration/Assignments"
-        public SymbolType DeclarationType { get; set; }
-        public string AssignmentVariable { get; set; }
+
+        public SymbolType DeclarationType { get; set; } = SymbolType.NONE;
+        public string Variable { get; set; } = "";
 
         #endregion
+
+        public bool IsDeclaration
+        {
+            get
+            {
+                if(DeclarationType!= SymbolType.NONE && NodeType == ASTNodeType.S)
+                    return true;
+                return false;
+            }
+        }
 
 
         public Expression Exp { get; set; }
@@ -73,10 +84,20 @@ namespace SCL
                 indent += "| ";
             }
 
+            string d = "";
+            if (IsDeclaration)
+            {
+                d = " dec ";
+            }
+
+            string v = "";
+
+            if (Variable !="")
+                v = ' ' + Variable + ' ';
             if (Exp == null)
-                Console.WriteLine(NodeType.ToString());
+                Console.WriteLine(NodeType.ToString() + d + v);
             else
-                Console.WriteLine(NodeType.ToString() + Exp.ToString());
+                Console.WriteLine(NodeType.ToString() + d + v  + Exp.ToString());
 
             if (Children == null)
                 return;
