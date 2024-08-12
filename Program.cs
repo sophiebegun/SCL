@@ -5,7 +5,7 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/SCLIO.scl");
+string s = File.ReadAllText("source/func.scl");
 
 var list = lex.Analyze(s);
 
@@ -21,4 +21,5 @@ Console.WriteLine(list);
 
 
 //Hello
+
 

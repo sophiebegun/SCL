@@ -1,0 +1,5 @@
+﻿F Add int a, int b: int
+{
+    S int r = a + b
+    #r
+}

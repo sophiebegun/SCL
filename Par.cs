@@ -121,7 +121,62 @@ namespace SCL
             {
                 Symbol symbol = list[i];
 
-                
+                // A function definition
+                //                F Add int a, int b: int
+                //                {
+                //                    S int r = a + b
+                //                     #r
+                //                }
+
+
+                //A function call
+                // Add(a, b) //A function call without return statement
+                // S r = Add(a, b) //Function call with a return statement
+
+                if (symbol.Type == SymbolType.F)
+                {
+
+                    ASTNode f = new ASTNode(ASTNodeType.F);
+
+                    f.Variable = list[i + 1].Value;
+
+                    int pIndex = i + 2;
+                    while (true)
+                    {
+                        //If at the end
+                        if (list[pIndex].Type == SymbolType.COLON || list[pIndex].Type == SymbolType.EOL)
+                        {
+                            if (list[pIndex].Type == SymbolType.COLON)
+                                f.ReturnType = list[pIndex + 1].Type;
+                            else
+                                f.ReturnType = SymbolType.NONE;
+                            break;
+                        }
+                        if (f.Parameters == null)
+                            f.Parameters = new List<Parameter>();
+                        
+                        Parameter p = new Parameter();
+                        p.Type = list[pIndex].Type;
+                        p.Name = list[pIndex + 1].Value;
+
+                        f.Parameters.Add(p);
+
+                        pIndex += 2;
+
+                        if (list[pIndex].Type == SymbolType.COM)
+                            pIndex++;
+                        
+
+
+
+                    }
+
+
+                    f.Parent = parent;
+                    parent.AddChild(f);
+
+                }
+
                 if (symbol.Type == SymbolType.S)
                 {
                     int expOffset = 0;
@@ -220,6 +275,7 @@ namespace SCL
                     parent.AddChild(r);
 
                 }
+
 
 
 

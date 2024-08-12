@@ -32,7 +32,7 @@
     <None Update="source\test1.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="source\test2.scl">
+    <None Update="source\func.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

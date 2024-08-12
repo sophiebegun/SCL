@@ -12,6 +12,7 @@ namespace SCL
         S,
         C,
         L,
+        F,
         I,
         O,
         Break,
@@ -31,6 +32,14 @@ namespace SCL
 
         public SymbolType DeclarationType { get; set; } = SymbolType.NONE;
         public string Variable { get; set; } = "";
+
+        #endregion
+
+        #region "Function Parameters"
+
+        public List<Parameter> Parameters { get; set; }
+
+        public SymbolType ReturnType { get; set; }
 
         #endregion
 
