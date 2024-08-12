@@ -13,7 +13,9 @@ namespace SCL
         C,
         L,
         I,
-        O
+        O,
+        Break,
+        Return
 
     }
 

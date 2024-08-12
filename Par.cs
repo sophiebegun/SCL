@@ -201,9 +201,32 @@ namespace SCL
 
                 }
 
+                if (symbol.Type == SymbolType.SWIGGLE)
+                {
+
+                    ASTNode b = new ASTNode(ASTNodeType.Break);
+                  
+                    b.Parent = parent;
+                    parent.AddChild(b);
+
+                }
+
+                if (symbol.Type == SymbolType.HASHTAG)
+                {
+
+                    ASTNode r = new ASTNode(ASTNodeType.Return);
+
+                    r.Parent = parent;
+                    parent.AddChild(r);
+
+                }
+
+
+
+
                 //if ()
                 //{
-                    
+
                 //}
 
                 if (symbol.Type == SymbolType.BRACE_END) //This means you are out of the previous scope, time to resume and resume to previous parent
