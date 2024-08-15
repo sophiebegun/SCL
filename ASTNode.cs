@@ -76,6 +76,12 @@ namespace SCL
             this.Symbols = symbols;
         }
 
+        public ASTNode()
+        {
+            
+        }
+
+
         public ASTNode(ASTNodeType type)
         {
             NodeType = type;
@@ -115,6 +121,6 @@ namespace SCL
 
             for (int i = 0; i < Children.Count; i++)
                 Children[i].PrintPretty(indent, i == Children.Count - 1);
-        }
+         }
     }
 }

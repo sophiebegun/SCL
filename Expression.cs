@@ -22,7 +22,7 @@ namespace SCL
             foreach (var symbol in symbols)
             {
                 sb.Append(symbol.Value);
-               
+
             }
 
             return " (" + sb.ToString() + ")";

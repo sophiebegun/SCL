@@ -23,13 +23,13 @@
     <None Update="source\SCLIO.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="source\test4.scl">
+    <None Update="source\nestedloop.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="source\test3.scl">
+    <None Update="source\alteredstate.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="source\test1.scl">
+    <None Update="source\loopandcondition.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="source\func.scl">

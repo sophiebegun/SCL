@@ -1,5 +1,5 @@
 ﻿S ﻿int i = 0
-S  = i+1
+S i  = i+1
 L i < 10
 {
 	L i < 2

@@ -121,6 +121,12 @@ namespace SCL
             {
                 Symbol symbol = list[i];
 
+                if (symbol.Type == SymbolType.EOL)
+                    continue;
+
+                ASTNode n = new ASTNode();
+
+
                 // A function definition
                 //                F Add int a, int b: int
                 //                {
@@ -136,9 +142,8 @@ namespace SCL
                 if (symbol.Type == SymbolType.F)
                 {
 
-                    ASTNode f = new ASTNode(ASTNodeType.F);
-
-                    f.Variable = list[i + 1].Value;
+                    n.NodeType = ASTNodeType.F;
+                    n.Variable = list[i + 1].Value;
 
                     int pIndex = i + 2;
                     while (true)
@@ -147,45 +152,48 @@ namespace SCL
                         if (list[pIndex].Type == SymbolType.COLON || list[pIndex].Type == SymbolType.EOL)
                         {
                             if (list[pIndex].Type == SymbolType.COLON)
-                                f.ReturnType = list[pIndex + 1].Type;
+                                n.ReturnType = list[pIndex + 1].Type;
                             else
-                                f.ReturnType = SymbolType.NONE;
+                                n.ReturnType = SymbolType.NONE;
                             break;
                         }
-                        if (f.Parameters == null)
-                            f.Parameters = new List<Parameter>();
+                        if (n.Parameters == null)
+                            n.Parameters = new List<Parameter>();
                         
                         Parameter p = new Parameter();
                         p.Type = list[pIndex].Type;
-                        p.Name = list[pIndex + 1].Value;
+                        p.Name = list[pIndex + 1].Value;     
 
-                        f.Parameters.Add(p);
+                        n.Parameters.Add(p);
 
                         pIndex += 2;
 
                         if (list[pIndex].Type == SymbolType.COM)
                             pIndex++;
-                        
-
-
 
                     }
 
 
-                    f.Parent = parent;
-                    parent.AddChild(f);
+
+
+                    i = DoCL(n, list, ref parent, i, parentStack, ASTNodeType.F);
+
+
+
+
 
                 }
 
                 if (symbol.Type == SymbolType.S)
                 {
                     int expOffset = 0;
-                    ASTNode s = new ASTNode(ASTNodeType.S);
+
+                    n.NodeType = ASTNodeType.S;
                     //This means this is a declaration
                     if (list[i+1].IsDataType())
                     {
-                        s.DeclarationType = list[i + 1].Type;
-                        s.Variable = list[i + 2].Value;
+                        n.DeclarationType = list[i + 1].Type;
+                        n.Variable = list[i + 2].Value;
 
                         if (list[i + 3].Type != SymbolType.EQ)
                             throw new Exception("Expecting assignment operator = ");
@@ -195,7 +203,7 @@ namespace SCL
                     //This means this is an assignment
                     else
                     {
-                        s.Variable = list[i + 1].Value;
+                        n.Variable = list[i + 1].Value;
                         if (list[i + 2].Type != SymbolType.EQ)
                             throw new Exception("Expecting assignment operator = ");
                         expOffset = i + 3;
@@ -207,28 +215,24 @@ namespace SCL
                     while (list[j].Type != SymbolType.EOL)
                         expList.Add(list[j++]);
 
-                    s.Exp = new Expression(expList);
-
-                    s.Parent = parent;
-                    parent.AddChild(s);
-
-                    //Fast forward to end of the line.
-                    while (list[i].Type != SymbolType.EOL)
-                        i++;
-
+                    n.Exp = new Expression(expList);
                     
                 }
                 
                 if (symbol.Type == SymbolType.C)
                 {
-                    i = DoCL(list, ref parent, i, parentStack, ASTNodeType.C);
+                    n.NodeType = ASTNodeType.C;
+
+                    i = DoCL(n,list, ref parent, i, parentStack, ASTNodeType.C);
                     
                 }
                 
                 
                 if (symbol.Type == SymbolType.L)
                 {
-                    i = DoCL(list, ref parent, i, parentStack, ASTNodeType.L);
+                    n.NodeType = ASTNodeType.L;
+
+                    i = DoCL(n,list, ref parent, i, parentStack, ASTNodeType.L);
                    
 
                 }
@@ -236,60 +240,63 @@ namespace SCL
 
                 if (symbol.Type == SymbolType.I)
                 {
+                    n.NodeType = ASTNodeType.I;
+                    
+                    n.Variable = list[i+1].Value;
 
-                    ASTNode input = new ASTNode(ASTNodeType.I);
-                    input.Variable = list[i+1].Value;
-
-                    input.Parent = parent;
-                    parent.AddChild(input);
+                   
 
                 }
 
                 if (symbol.Type == SymbolType.O)
                 {
+                    n.NodeType = ASTNodeType.O;
+                    
+                    n.Variable = list[i + 1].Value;
 
-                    ASTNode output = new ASTNode(ASTNodeType.O);
-                    output.Variable = list[i + 1].Value;
-
-                    output.Parent = parent;
-                    parent.AddChild(output);
-
+                   
                 }
 
                 if (symbol.Type == SymbolType.SWIGGLE)
                 {
-
-                    ASTNode b = new ASTNode(ASTNodeType.Break);
+                    n.NodeType = ASTNodeType.Break;
+                    
                   
-                    b.Parent = parent;
-                    parent.AddChild(b);
-
+                   
                 }
 
                 if (symbol.Type == SymbolType.HASHTAG)
                 {
+                    n.NodeType = ASTNodeType.Return;
 
-                    ASTNode r = new ASTNode(ASTNodeType.Return);
+                    int j = i +1;
+                    List<Symbol> expList = new List<Symbol>();
+                    while (list[j].Type != SymbolType.EOL)
+                        expList.Add(list[j++]);
+                    n.Exp = new Expression(expList);
 
-                    r.Parent = parent;
-                    parent.AddChild(r);
+                }
 
+                if (symbol.Type != SymbolType.L && symbol.Type != SymbolType.C && symbol.Type != SymbolType.F && symbol.Type != SymbolType.BRACE_END && symbol.Type != SymbolType.BRACE_START)
+                {
+                    //Set parent references
+                    n.Parent = parent;
+                    parent.AddChild(n);
                 }
 
 
 
-
-
-                //if ()
-                //{
-
-                //}
-
+                
                 if (symbol.Type == SymbolType.BRACE_END) //This means you are out of the previous scope, time to resume and resume to previous parent
                 {
                     if (parentStack.Count > 0)
                         parent = parentStack.Pop();
                 }
+
+
+                //Fast forward to end of the line.
+                while (list[i].Type != SymbolType.EOL)
+                    i++;
 
 
             }
@@ -299,10 +306,9 @@ namespace SCL
             return root;
         }
 
-        private static int DoCL(List<Symbol> list, ref ASTNode parent, int i, Stack<ASTNode> parentStack, ASTNodeType nt)
+        private static int DoCL(ASTNode n, List<Symbol> list, ref ASTNode parent, int i, Stack<ASTNode> parentStack, ASTNodeType nt)
         {
-            ASTNode n = new ASTNode(nt);
-
+            
             int j = i + 1;
             List<Symbol> expList = new List<Symbol>();
             while (list[j].Type != SymbolType.BRACE_START)
@@ -314,10 +320,6 @@ namespace SCL
             parentStack.Push(parent); //Remember the previous parent
             //Reassign the parent
             parent = n;
-
-            //Fast forward to beginning of the brace 
-            while (list[i].Type != SymbolType.BRACE_START)
-                i++;
             return i;
         }
     }
