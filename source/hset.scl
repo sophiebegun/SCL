@@ -1,0 +1,3 @@
+﻿S hset int h
+F add(h,1)
+S int a = get(h,0)

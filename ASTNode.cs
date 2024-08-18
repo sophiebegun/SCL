@@ -9,12 +9,13 @@ namespace SCL
     public enum ASTNodeType
     {
         Root,
-        S,
-        C,
-        L,
-        F,
-        I,
-        O,
+        S, //State
+        C, //Conditionality
+        L, //Loop
+        FC, //Function Call
+        FD, //Function Def
+        I, //Input
+        O, //Output
         Break,
         Return
 
@@ -32,6 +33,12 @@ namespace SCL
 
         public SymbolType DeclarationType { get; set; } = SymbolType.NONE;
         public string Variable { get; set; } = "";
+
+        //Used for lst, hmaps. 
+        public SymbolType KeySubtype { get; set; } = SymbolType.NONE;
+
+        //Used for hsets only.
+        public SymbolType ValueSubtype { get; set; } = SymbolType.NONE;
 
         #endregion
 

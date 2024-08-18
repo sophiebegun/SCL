@@ -1,0 +1,3 @@
+﻿S hmap int str hm
+F add(hm,1,"hello")
+S str a = get(hm,1)

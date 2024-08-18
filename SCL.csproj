@@ -20,6 +20,15 @@
     <None Update="source\assign.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="source\hmap.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="source\hset.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="source\lst.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="source\SCLIO.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
