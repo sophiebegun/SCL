@@ -14,6 +14,8 @@
                 {
                     case SymbolType.NUMBER:
                     case SymbolType.NAME:
+                    case SymbolType.TRUE:  // Handle TRUE as a literal
+                    case SymbolType.FALSE: // Handle FALSE as a literal
                         output.Add(symbol);
                         expectFunction = true;
                         break;
@@ -64,6 +66,10 @@
                     case SymbolType.PIPE:
                     case SymbolType.COMP:
                     case SymbolType.NOT_EQ:
+                    case SymbolType.GTE:  // Handle >=
+                    case SymbolType.GT:   // Handle >
+                    case SymbolType.LTE:  // Handle <=
+                    case SymbolType.LT:   // Handle <
                         while (stack.Count > 0 && Precedence(stack.Peek().Type) >= Precedence(symbol.Type))
                         {
                             output.Add(stack.Pop());
@@ -103,6 +109,10 @@
                     return 6;
                 case SymbolType.COMP:
                 case SymbolType.NOT_EQ:
+                case SymbolType.GTE:
+                case SymbolType.GT:
+                case SymbolType.LTE:
+                case SymbolType.LT:
                     return 7;
                 default:
                     return 0;

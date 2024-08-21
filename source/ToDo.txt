@@ -3,4 +3,16 @@
 2. Lists/Hashmaps (17 - 19) -- CHECK
 3. Parse Expression through SY (19)
 4. set (23) -- CHECK
-5. Tests (Everyday)
+
+INTERPRETER
+1. Set up the state of execution of the program
+2. Do simple arithmetic expression parsing
+3. Do simple logical (boolean) expression parsing
+4. Do Function calls in expressions
+
+
+
+TESTING
+1. Set up automated tests
+
+*. Tests (Everyday)
