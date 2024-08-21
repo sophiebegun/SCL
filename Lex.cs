@@ -31,26 +31,32 @@ namespace SCL
             return result;
         }
 
+        private Symbol ParseDoubleToken(string line, int i)
+        {
+            //If at last symbol then return null;
+            if (i == line.Length - 1)
+                return null;
+
+            string s = line[i].ToString() + line[i + 1].ToString();
+
+            switch(s)
+            {
+               case "==": return new Symbol(SymbolType.COMP, s);
+               case "!=": return new Symbol(SymbolType.NOT_EQ, s);
+               case ">=": return new Symbol(SymbolType.GTE, s);
+               case "<=": return new Symbol(SymbolType.LTE, s);
+               default: return null;
+            }
+
+        }
+
         //S int hello = 1223
+
         public List<Symbol> AnalyzeLine(string line)
         {
             List<Symbol> result = new List<Symbol>();
 
-            //Check for Pipe
-            string[] arPipe = line.Split('|');
-
-
-
-            //string[] ar = arPipe[0].Split(' ');
-            //foreach (string s in ar)
-            //{
-
-            //    Symbol sym = Map(s);
-            //    result.Add(sym);  
-            //}
-
-
-            int i=0;
+            int i = 0;
 
             while (i < line.Length)
             {
@@ -60,18 +66,33 @@ namespace SCL
                     continue;
                 }
 
-                string token = line[i].ToString();
+                if (line[i] == '"')
+                {
+                    StringBuilder sb = new StringBuilder();
+                    i++; // Skip the opening double quote
 
-                if (char.IsLetter(line[i]))
+                    while (i < line.Length && line[i] != '"')
+                    {
+                        sb.Append(line[i]);
+                        i++;
+                    }
+
+                    if (i < line.Length && line[i] == '"')
+                    {
+                        i++; // Skip the closing double quote
+                    }
+
+                    result.Add(new Symbol(SymbolType.CONST, sb.ToString()));
+                }
+                else if (char.IsLetter(line[i]))
                 {
                     StringBuilder sb = new StringBuilder();
                     while (i < line.Length && (char.IsLetter(line[i]) || char.IsDigit(line[i])))
                     {
                         sb.Append(line[i]);
                         i++;
-
                     }
-                   
+
                     Symbol s = Map(sb.ToString());
                     result.Add(s);
                     i--; // Adjust for the outer loop increment
@@ -89,24 +110,26 @@ namespace SCL
                 }
                 else
                 {
-                    Symbol s = Map(token);
-                    result.Add(s);
+                    Symbol dt = ParseDoubleToken(line, i);
+                    if (dt != null)
+                    {
+                        i++;
+                        result.Add(dt);
+                    }
+                    else
+                    {
+                        string token = line[i].ToString();
+                        Symbol s = Map(token);
+                        result.Add(s);
+                    }
                 }
                 i++;
-            }
-
-
-            //This means there is a constant after the pipe
-            if (arPipe.Length > 1)
-            {
-                result.Add(new Symbol(SymbolType.CONST, arPipe[1]));
             }
 
             result.Add(new Symbol(SymbolType.EOL));
 
             return result;
         }
-
 
         private Symbol Map(string s)
         {
@@ -141,9 +164,6 @@ namespace SCL
 
                 case ",": return new Symbol(SymbolType.COM, s);
                 case "=": return new Symbol(SymbolType.EQ, s);
-                case "==": return new Symbol(SymbolType.COMP, s);
-                case ">=": return new Symbol(SymbolType.GTE, s);
-                case "<=": return new Symbol(SymbolType.LTE, s);
                 case "<": return new Symbol(SymbolType.LT, s);
                 case ">": return new Symbol(SymbolType.GT, s);
                 case "true": return new Symbol(SymbolType.TRUE, s);
@@ -152,6 +172,8 @@ namespace SCL
                 case "#": return new Symbol(SymbolType.HASHTAG, s);
                 case ":": return new Symbol(SymbolType.COLON, s);
                 case "!": return new Symbol(SymbolType.NOT, s);
+                case "|": return new Symbol(SymbolType.PIPE, s);
+                case "&": return new Symbol(SymbolType.AMP, s);
                 case "{": return new Symbol(SymbolType.BRACE_START, s);
                 case "}": return new Symbol(SymbolType.BRACE_END, s);
 

@@ -1,7 +1,6 @@
-﻿C i<=10	
+﻿S str something = "HELLO WORLD"
+
+C i<=10	& i>=5 | 1!=1
 {
 	S i=i+1
 }
-
-S int i = 0
-S i = 1

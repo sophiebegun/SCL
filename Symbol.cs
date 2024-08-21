@@ -31,6 +31,7 @@ namespace SCL
         EOL, //End of line
         EQ, //Equal
         COMP, //Comparison
+        NOT_EQ, //Not Equals
         GTE, //Greater than or equal to
         GT, //Greater than
         LTE, //Less than or equal to
@@ -50,7 +51,8 @@ namespace SCL
         BRACE_END, //}
         COM, //Comma in between parameters/arguments
         CONST, //Reps constant either number or string
-
+        AMP, //&
+        PIPE, // |
         
     }
 

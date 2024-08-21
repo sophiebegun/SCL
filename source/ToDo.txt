@@ -1,6 +1,6 @@
 ﻿PARSER -- Finish by 8/28
 1. Functions (12 - 15) -- CHECK
-2. Lists/Hashmaps (17 - 19)
+2. Lists/Hashmaps (17 - 19) -- CHECK
 3. Parse Expression through SY (19)
-4. set (23)
+4. set (23) -- CHECK
 5. Tests (Everyday)

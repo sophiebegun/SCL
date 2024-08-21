@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SCL
+﻿namespace SCL
 {
     internal class ShuntingYard
     {
@@ -32,35 +26,49 @@ namespace SCL
 
                     case SymbolType.PAREN_END:
                     case SymbolType.BRACK_END:
-                        while (stack.Count > 0 && stack.Peek().Type != SymbolType.PAREN_START && stack.Peek().Type != SymbolType.BRACK_START)
+                        while (stack.Count > 0 && stack.Peek().Type != SymbolType.PAREN_START &&
+                               stack.Peek().Type != SymbolType.BRACK_START)
                         {
                             output.Add(stack.Pop());
                         }
-                        if (stack.Count > 0 && (stack.Peek().Type == SymbolType.PAREN_START || stack.Peek().Type == SymbolType.BRACK_START))
+
+                        if (stack.Count > 0 && (stack.Peek().Type == SymbolType.PAREN_START ||
+                                                stack.Peek().Type == SymbolType.BRACK_START))
                         {
                             stack.Pop();
                         }
+
                         if (stack.Count > 0 && stack.Peek().Type == SymbolType.NAME && expectFunction)
                         {
                             output.Add(stack.Pop());
                         }
+
                         break;
 
                     case SymbolType.COM:
-                        while (stack.Count > 0 && stack.Peek().Type != SymbolType.PAREN_START && stack.Peek().Type != SymbolType.BRACK_START)
+                        while (stack.Count > 0 && stack.Peek().Type != SymbolType.PAREN_START &&
+                               stack.Peek().Type != SymbolType.BRACK_START)
                         {
                             output.Add(stack.Pop());
                         }
+
                         break;
+
                     case SymbolType.POW:
                     case SymbolType.MUL:
                     case SymbolType.DIV:
                     case SymbolType.PLUS:
                     case SymbolType.MINUS:
+                    case SymbolType.NOT:
+                    case SymbolType.AMP:
+                    case SymbolType.PIPE:
+                    case SymbolType.COMP:
+                    case SymbolType.NOT_EQ:
                         while (stack.Count > 0 && Precedence(stack.Peek().Type) >= Precedence(symbol.Type))
                         {
                             output.Add(stack.Pop());
                         }
+
                         stack.Push(symbol);
                         expectFunction = false;
                         break;
@@ -87,10 +95,18 @@ namespace SCL
                     return 2;
                 case SymbolType.POW:
                     return 3;
+                case SymbolType.NOT:
+                    return 4;
+                case SymbolType.AMP:
+                    return 5;
+                case SymbolType.PIPE:
+                    return 6;
+                case SymbolType.COMP:
+                case SymbolType.NOT_EQ:
+                    return 7;
                 default:
                     return 0;
             }
         }
     }
-
 }

@@ -5,7 +5,7 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/hset.scl");
+string s = File.ReadAllText("source/c1.scl");
 
 var list = lex.Analyze(s);
 
