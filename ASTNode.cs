@@ -71,6 +71,20 @@ namespace SCL
         }
 
 
+        public void Evaluate(Scope s)
+        {
+            if (NodeType == ASTNodeType.Root)
+            {
+                this.Children[0].Evaluate(s);
+                return;
+            }
+            if (IsDeclaration)
+            {
+                object value = Exp.Evaluate(s);
+                Var v = new Var(this.Variable, this.DeclarationType, value);
+                s.Add(this.Variable,v);
+            }
+        }
 
 
 

@@ -5,15 +5,16 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/exp1.scl");
+string s = File.ReadAllText("source/expr.scl");
 
 var list = lex.Analyze(s);
 
 
-//Par par = new Par();
-//ASTNode node = par.Parse(list);
+Par par = new Par();
+ASTNode node = par.Parse(list);
 
-var postFixList = ShuntingYard.ConvertToPostfix(list);
+Inter inter = new Inter(node);
+inter.Evaluate();
 
 
 Console.WriteLine(list);
