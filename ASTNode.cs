@@ -81,6 +81,14 @@ namespace SCL
             if (IsDeclaration)
             {
                 object value = Exp.Evaluate(s);
+                if (value is bool && DeclarationType != SymbolType.DT_BOOL)
+                    throw new Exception("Trying to assign a Boolean evaluation to a " + DeclarationType.ToString() + " type");
+
+                if (value is double && DeclarationType != SymbolType.DT_INT)
+                    throw new Exception("Trying to assign a double evaluation to a " + DeclarationType.ToString() + " type");
+
+
+
                 Var v = new Var(this.Variable, this.DeclarationType, value);
                 s.Add(this.Variable,v);
             }

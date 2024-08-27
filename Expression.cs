@@ -20,39 +20,77 @@ namespace SCL
 
         public object Evaluate(Scope s)
         {
-            Stack<double> stack = new Stack<double>();
+            Stack<object> stack = new Stack<object>();
+
             foreach (var symbol in rpnSymbols)
             {
                 if (symbol.Type == SymbolType.NUMBER)
                 {
                     stack.Push(Convert.ToDouble(symbol.Value));
                 }
+                else if (symbol.Type == SymbolType.TRUE || symbol.Type == SymbolType.FALSE)
+                {
+                    stack.Push(symbol.Type == SymbolType.TRUE);
+                }
                 else
                 {
-                    double rightOperand = stack.Pop();
-                    double leftOperand = stack.Pop();
+                    var rightOperand = stack.Pop();
+                    object leftOperand = null;
+
+                    if (symbol.Type != SymbolType.NOT)
+                    {
+                        leftOperand = stack.Pop();
+                    }
 
                     switch (symbol.Type)
                     {
                         case SymbolType.PLUS:
-                            stack.Push(leftOperand + rightOperand);
+                            stack.Push((double)leftOperand + (double)rightOperand);
                             break;
                         case SymbolType.MINUS:
-                            stack.Push(leftOperand - rightOperand);
+                            stack.Push((double)leftOperand - (double)rightOperand);
                             break;
                         case SymbolType.MUL:
-                            stack.Push(leftOperand * rightOperand);
+                            stack.Push((double)leftOperand * (double)rightOperand);
                             break;
                         case SymbolType.DIV:
-                            stack.Push(leftOperand / rightOperand);
+                            stack.Push((double)leftOperand / (double)rightOperand);
                             break;
                         case SymbolType.POW:
-                            stack.Push(Math.Pow(leftOperand, rightOperand));
+                            stack.Push(Math.Pow((double)leftOperand, (double)rightOperand));
+                            break;
+                        case SymbolType.AMP:
+                            stack.Push((bool)leftOperand && (bool)rightOperand);
+                            break;
+                        case SymbolType.PIPE:
+                            stack.Push((bool)leftOperand || (bool)rightOperand);
+                            break;
+                        case SymbolType.NOT:
+                            stack.Push(!(bool)rightOperand);
+                            break;
+                        case SymbolType.EQ:
+                            stack.Push((double)leftOperand == (double)rightOperand);
+                            break;
+                        case SymbolType.NOT_EQ:
+                            stack.Push((double)leftOperand != (double)rightOperand);
+                            break;
+                        case SymbolType.GTE:
+                            stack.Push((double)leftOperand >= (double)rightOperand);
+                            break;
+                        case SymbolType.GT:
+                            stack.Push((double)leftOperand > (double)rightOperand);
+                            break;
+                        case SymbolType.LTE:
+                            stack.Push((double)leftOperand <= (double)rightOperand);
+                            break;
+                        case SymbolType.LT:
+                            stack.Push((double)leftOperand < (double)rightOperand);
                             break;
                     }
                 }
             }
-            double result = stack.Pop();
+            
+            object result = stack.Pop();
             return result;
         }
 

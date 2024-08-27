@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="source\logic_expr.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="source\exp1.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -17,7 +20,7 @@
     <None Update="source\c2.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="source\expr.scl">
+    <None Update="source\arith_expr.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="source\assign.scl">

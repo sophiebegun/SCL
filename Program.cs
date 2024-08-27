@@ -5,7 +5,7 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/expr.scl");
+string s = File.ReadAllText("source/arith_expr.scl");
 
 var list = lex.Analyze(s);
 
