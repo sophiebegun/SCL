@@ -16,6 +16,7 @@ namespace SCL
         I, //Input
         O, //Output
         DT_INT, //Integer
+        DT_DOUBLE, //Double
         DT_STR, //String
         DT_SET, //Hashset
         DT_MAP, //Hashmap
@@ -79,6 +80,7 @@ namespace SCL
             {
                 case SymbolType.DT_BOOL:
                 case SymbolType.DT_INT:
+                case SymbolType.DT_DOUBLE:
                 case SymbolType.DT_LST:
                 case SymbolType.DT_STR:
                 case SymbolType.DT_MAP:

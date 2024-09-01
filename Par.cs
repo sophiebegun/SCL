@@ -224,7 +224,7 @@ namespace SCL
                         n.DeclarationType = list[i + 1].Type;
 
                         //If simple types
-                        if (n.DeclarationType ==SymbolType.DT_INT || n.DeclarationType == SymbolType.DT_STR || n.DeclarationType == SymbolType.DT_BOOL)
+                        if (n.DeclarationType ==SymbolType.DT_INT || n.DeclarationType == SymbolType.DT_DOUBLE || n.DeclarationType == SymbolType.DT_STR || n.DeclarationType == SymbolType.DT_BOOL)
                         {
                             if (list[i + 2].Type != SymbolType.NAME)
                                 throw new Exception("Expecting name");

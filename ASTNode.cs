@@ -73,25 +73,72 @@ namespace SCL
 
         public void Evaluate(Scope s)
         {
-            if (NodeType == ASTNodeType.Root)
+            //Root Condition
+            if (this.NodeType == ASTNodeType.Root)
             {
-                this.Children[0].Evaluate(s);
+                for (int j = 0; j < this.Children.Count; j++)
+                    this.Children[j].Evaluate(s);
                 return;
             }
-            if (IsDeclaration)
+
+            //Everything else
+            if (this.NodeType == ASTNodeType.S)
             {
-                object value = Exp.Evaluate(s);
-                if (value is bool && DeclarationType != SymbolType.DT_BOOL)
-                    throw new Exception("Trying to assign a Boolean evaluation to a " + DeclarationType.ToString() + " type");
-
-                if (value is double && DeclarationType != SymbolType.DT_INT)
-                    throw new Exception("Trying to assign a double evaluation to a " + DeclarationType.ToString() + " type");
+                object value = this.Exp.Evaluate(s);
+                if (value is bool && this.DeclarationType != SymbolType.DT_BOOL)
+                    throw new Exception("Trying to assign a Boolean evaluation to a " + this.DeclarationType.ToString() + " type");
 
 
+                if (this.IsDeclaration)
+                {
+                    if (value is double && (this.DeclarationType != SymbolType.DT_INT && this.DeclarationType != SymbolType.DT_DOUBLE))
+                        throw new Exception("Trying to assign a double evaluation to a " + this.DeclarationType.ToString() + " type");
+                    Var v = new Var(this.Variable, this.DeclarationType, value);
+                    s.Add(this.Variable, v);
+                }
+                else
+                {
+                    if (value is double && (s[this.Variable].Type != SymbolType.DT_INT && s[this.Variable].Type != SymbolType.DT_DOUBLE))
+                        throw new Exception("Trying to assign a double evaluation to a " + this.DeclarationType.ToString() + " type");
 
-                Var v = new Var(this.Variable, this.DeclarationType, value);
-                s.Add(this.Variable,v);
+                    s[this.Variable].Value = value;
+                }
             }
+            else if (this.NodeType == ASTNodeType.C)
+            {
+                object value = this.Exp.Evaluate(s);
+                if (!(value is bool))
+                    throw new Exception("C must evaluate to a bool.");
+                if ((bool)value)
+                {
+                    for (int j = 0; j < this.Children.Count; j++)
+                        this.Children[j].Evaluate(s);
+                }
+            }
+            else if (this.NodeType == ASTNodeType.L)
+            {
+                while (true)
+                {
+                    object value = this.Exp.Evaluate(s);
+                    if (!(value is bool))
+                        throw new Exception("L must evaluate to a bool.");
+
+                    if ((bool)value)
+                    {
+                        for (int j = 0; j < this.Children.Count; j++)
+                            this.Children[j].Evaluate(s);
+                    }
+                    else
+                        break;
+                }
+            }
+            else if (this.NodeType == ASTNodeType.O)
+            {
+                object value = s[this.Variable].Value;
+                Console.WriteLine(value);
+            }
+
+
         }
 
 

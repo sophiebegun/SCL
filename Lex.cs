@@ -146,6 +146,7 @@ namespace SCL
                 case "I": return new Symbol(SymbolType.I, s);
                 case "O": return new Symbol(SymbolType.O, s);
                 case "int": return new Symbol(SymbolType.DT_INT, s);
+                case "double": return new Symbol(SymbolType.DT_DOUBLE, s);
                 case "str": return new Symbol(SymbolType.DT_STR, s);
                 case "hset": return new Symbol(SymbolType.DT_SET, s);
                 case "lst": return new Symbol(SymbolType.DT_LST, s);

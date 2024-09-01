@@ -1,0 +1,15 @@
+﻿S int i = 1
+S int j = 1
+L (i<10)
+{
+	S j = 0
+	L (j<10)
+	{
+		O i
+		O j
+		S j = j + 1
+	}
+
+	S i = i + 1
+
+}

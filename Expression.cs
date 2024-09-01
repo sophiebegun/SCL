@@ -28,6 +28,11 @@ namespace SCL
                 {
                     stack.Push(Convert.ToDouble(symbol.Value));
                 }
+                else if (symbol.Type == SymbolType.NAME)
+                {
+                    //For now assume that the name is a variable
+                    stack.Push(s[symbol.Value].Value);
+                }
                 else if (symbol.Type == SymbolType.TRUE || symbol.Type == SymbolType.FALSE)
                 {
                     stack.Push(symbol.Type == SymbolType.TRUE);

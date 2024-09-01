@@ -5,7 +5,7 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/arith_expr.scl");
+string s = File.ReadAllText("source/t_c_ex.scl");
 
 var list = lex.Analyze(s);
 
@@ -13,12 +13,12 @@ var list = lex.Analyze(s);
 Par par = new Par();
 ASTNode node = par.Parse(list);
 
-Inter inter = new Inter(node);
-inter.Evaluate();
-
-
 Console.WriteLine(list);
 
+
+
+Inter inter = new Inter(node);
+inter.Evaluate();
 
 
 //Hello

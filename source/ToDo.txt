@@ -13,7 +13,7 @@ INTERPRETER
 5. Do Function calls in expressions
 
 HW.
-Introduce Double type
+Introduce Double type -CHECK
 
 
 TESTING
