@@ -5,12 +5,15 @@
 4. set (23) -- CHECK
 
 INTERPRETER
-1. Set up the state of execution of the program
+1. Set up the state of execution of the program -CHECK
 2. Do simple arithmetic expression parsing -CHECK
 3. Do simple logical (boolean) expression parsing -CHECK
-3*. Fix Not operator
-4. Program flow
+4. Program flow - IN PROGRESS
 5. Do Function calls in expressions
+
+BUGS
+*. Fix Not operator
+*. Fix Printing on multiple lines
 
 HW.
 Introduce Double type -CHECK

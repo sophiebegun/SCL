@@ -5,7 +5,7 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/t_c_ex.scl");
+string s = File.ReadAllText("source/func_add.scl");
 
 var list = lex.Analyze(s);
 
@@ -17,7 +17,7 @@ Console.WriteLine(list);
 
 
 
-Inter inter = new Inter(node);
+Inter inter = new Inter(node, par.FDs);
 inter.Evaluate();
 
 

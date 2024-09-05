@@ -1,8 +1,0 @@
-﻿F Add int a, int b: int
-{
-    C r > 10
-    {
-        S r = 0
-    }
-    # r
-}

@@ -56,7 +56,7 @@
     <None Update="source\loopandcondition.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="source\func.scl">
+    <None Update="source\func_add.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

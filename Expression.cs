@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SCL
 {
     internal class Expression
     {
-        private List<Symbol> symbols;
+        public List<Symbol> Symbols {get;set;}
+
+
         private List<Symbol> rpnSymbols;
 
         public Expression(List<Symbol> symbols)
         {
-            this.symbols = symbols;
+            this.Symbols = symbols;
             this.rpnSymbols = ShuntingYard.ConvertToPostfix(symbols);
         }
 
-        public object Evaluate(Scope s)
+        public object Evaluate(Scope s, Dictionary<string, ASTNode> fds)
         {
             Stack<object> stack = new Stack<object>();
 
@@ -30,8 +34,47 @@ namespace SCL
                 }
                 else if (symbol.Type == SymbolType.NAME)
                 {
-                    //For now assume that the name is a variable
-                    stack.Push(s[symbol.Value].Value);
+                    //This means that this name is a function, not a variable
+                    if (fds.ContainsKey(symbol.Value))
+                    {
+                        string func = symbol.Value;
+                        ASTNode fdNode = fds[func];
+
+                        int argCount = fdNode.Parameters.Count;
+
+
+                        Scope new_scope = new Scope();
+
+                        // Pop arguments from stack in reverse order (right to left)
+                        for (int i = argCount - 1; i >= 0; i--)
+                        {
+                            string name = fdNode.Parameters[i].Name;
+                            object val = stack.Pop();
+                            Var v = new Var(name, fdNode.Parameters[i].Type, val);
+                            new_scope.Add(name, v);
+                            
+                        }
+
+                        var func_result = fdNode.Evaluate(new_scope, fds);
+                        stack.Push(func_result);
+                    }
+                    
+                    //This means that this is a variable
+                    else
+                    {
+                        
+                        stack.Push(s[symbol.Value].Value);
+                    }
+
+                        
+
+
+
+                    
+                }
+                else if (symbol.Type == SymbolType.CONST)
+                {
+                    stack.Push(symbol.Value);
                 }
                 else if (symbol.Type == SymbolType.TRUE || symbol.Type == SymbolType.FALSE)
                 {
@@ -102,7 +145,7 @@ namespace SCL
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (var symbol in symbols)
+            foreach (var symbol in Symbols)
             {
                 sb.Append(symbol.Value);
 

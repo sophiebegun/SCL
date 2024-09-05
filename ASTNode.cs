@@ -50,6 +50,10 @@ namespace SCL
 
         #endregion
 
+        #region "Output"
+        public bool IsNL { get; set; } = true;
+        #endregion
+
         public bool IsDeclaration
         {
             get
@@ -71,20 +75,25 @@ namespace SCL
         }
 
 
-        public void Evaluate(Scope s)
+        public object Evaluate(Scope s, Dictionary<string, ASTNode> fds)
         {
-            //Root Condition
-            if (this.NodeType == ASTNodeType.Root)
+            //Root Condition || FD
+            if (this.NodeType == ASTNodeType.Root || this.NodeType == ASTNodeType.FD)
             {
                 for (int j = 0; j < this.Children.Count; j++)
-                    this.Children[j].Evaluate(s);
-                return;
+                {
+                    var r = this.Children[j].Evaluate(s, fds);
+                    //If return statement then return r
+                    if (this.Children[j].NodeType == ASTNodeType.Return) 
+                        return r;
+                }
+                return null;
             }
 
             //Everything else
             if (this.NodeType == ASTNodeType.S)
             {
-                object value = this.Exp.Evaluate(s);
+                object value = this.Exp.Evaluate(s, fds);
                 if (value is bool && this.DeclarationType != SymbolType.DT_BOOL)
                     throw new Exception("Trying to assign a Boolean evaluation to a " + this.DeclarationType.ToString() + " type");
 
@@ -106,27 +115,27 @@ namespace SCL
             }
             else if (this.NodeType == ASTNodeType.C)
             {
-                object value = this.Exp.Evaluate(s);
+                object value = this.Exp.Evaluate(s, fds);
                 if (!(value is bool))
                     throw new Exception("C must evaluate to a bool.");
                 if ((bool)value)
                 {
                     for (int j = 0; j < this.Children.Count; j++)
-                        this.Children[j].Evaluate(s);
+                        this.Children[j].Evaluate(s, fds);
                 }
             }
             else if (this.NodeType == ASTNodeType.L)
             {
                 while (true)
                 {
-                    object value = this.Exp.Evaluate(s);
+                    object value = this.Exp.Evaluate(s, fds);
                     if (!(value is bool))
                         throw new Exception("L must evaluate to a bool.");
 
                     if ((bool)value)
                     {
                         for (int j = 0; j < this.Children.Count; j++)
-                            this.Children[j].Evaluate(s);
+                            this.Children[j].Evaluate(s, fds);
                     }
                     else
                         break;
@@ -135,8 +144,26 @@ namespace SCL
             else if (this.NodeType == ASTNodeType.O)
             {
                 object value = s[this.Variable].Value;
-                Console.WriteLine(value);
+                if (this.IsNL)
+                    Console.WriteLine(value);
+                else
+                    Console.Write(value);
+
+
             }
+            else if (this.NodeType == ASTNodeType.Return)
+            {
+                //This means that the function returns void.
+                if (this.Exp == null)
+                    return null;
+
+                if (this.Exp.Symbols.Count == 0)
+                    return null;
+
+                object value = this.Exp.Evaluate(s, fds);
+                return value;
+            }
+            return null;
 
 
         }

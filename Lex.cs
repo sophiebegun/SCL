@@ -177,7 +177,7 @@ namespace SCL
                 case "&": return new Symbol(SymbolType.AMP, s);
                 case "{": return new Symbol(SymbolType.BRACE_START, s);
                 case "}": return new Symbol(SymbolType.BRACE_END, s);
-
+ 
             }
 
             return new Symbol(SymbolType.NAME, s);

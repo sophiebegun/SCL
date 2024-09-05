@@ -14,6 +14,8 @@ namespace SCL
     {
         ASTNode root = null;
 
+        public Dictionary<string, ASTNode> FDs = new Dictionary<string, ASTNode>();
+
 
 
 
@@ -206,7 +208,11 @@ namespace SCL
 
                         }
 
+
                         i = DoCLF(n, list, ref parent, i, parentStack, ASTNodeType.FD);
+
+                        //Add the function def to dictionary of FDs
+                        FDs.Add(n.Variable, n);
 
                     }
 
@@ -314,6 +320,11 @@ namespace SCL
                     n.NodeType = ASTNodeType.O;
                     n.Variable = list[i + 1].Value;
                     SetParent(parent, n);
+
+                    if (list[i+2].Type == SymbolType.COM)
+                    {
+                        n.IsNL = false;
+                    }
                 }
 
                 if (symbol.Type == SymbolType.SWIGGLE)

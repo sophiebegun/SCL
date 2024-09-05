@@ -8,6 +8,6 @@ namespace SCL
 {
     internal class Scope: Dictionary<string,Var>
     {
-
+        public Scope Parent { get; set; } = null;
     }
 }

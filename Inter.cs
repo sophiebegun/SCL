@@ -8,19 +8,18 @@ namespace SCL
 {
     internal class Inter 
     {
-        private Stack<Scope> state = new Stack<Scope>();
+        private Scope state = new Scope();
+        Dictionary<string, ASTNode> fds;
         private ASTNode root;
-        public Inter(ASTNode root)
+        public Inter(ASTNode root, Dictionary<string, ASTNode> fds)
         {
             this.root = root;
-            Scope s = new Scope();
-            state.Push(s);
-
+            this.fds = fds;
         }
 
         public void Evaluate()
         {
-            this.root.Evaluate(state.Peek());
+            this.root.Evaluate(state, fds);
         }
 
 
