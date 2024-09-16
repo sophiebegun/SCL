@@ -1,3 +1,4 @@
 ﻿S lst int list
 F add(lst,1)
 S int a = get(lst,0)
+F rem(lst, 0)

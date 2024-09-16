@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection;
@@ -13,6 +14,17 @@ namespace SCL
     internal class Par
     {
         ASTNode root = null;
+
+
+        public static readonly ReadOnlyCollection<string> BuiltInFunctions = 
+         new ReadOnlyCollection<string>(new[] { "add", "get", "rem" });
+
+        public static bool IsBuiltIn(string name)
+        {
+            return BuiltInFunctions.Contains(name);
+        }
+
+
 
         public Dictionary<string, ASTNode> FDs = new Dictionary<string, ASTNode>();
 
@@ -252,7 +264,7 @@ namespace SCL
                                 if(list[i + 3].Type != SymbolType.NAME)
                                     throw new Exception("Expecting name");
 
-                                expOffset = i + 3;
+                                expOffset = i + 4;
                             }
                             else if(n.DeclarationType == SymbolType.DT_MAP)
                             {
@@ -267,7 +279,7 @@ namespace SCL
 
 
 
-                                expOffset = i + 4;
+                                expOffset = i + 5;
                             }
                         }
                         //S lst int list

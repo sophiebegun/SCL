@@ -90,8 +90,19 @@ namespace SCL
                 return null;
             }
 
+
+            //If function call that has no return type
+            if (this.NodeType == ASTNodeType.FC)
+            {
+                this.Exp.Evaluate(s, fds);
+            }
+
+
+
+
+
             //Everything else
-            if (this.NodeType == ASTNodeType.S)
+            else if (this.NodeType == ASTNodeType.S)
             {
                 object value = this.Exp.Evaluate(s, fds);
                 if (value is bool && this.DeclarationType != SymbolType.DT_BOOL)
@@ -102,6 +113,7 @@ namespace SCL
                 {
                     if (value is double && (this.DeclarationType != SymbolType.DT_INT && this.DeclarationType != SymbolType.DT_DOUBLE))
                         throw new Exception("Trying to assign a double evaluation to a " + this.DeclarationType.ToString() + " type");
+
                     Var v = new Var(this.Variable, this.DeclarationType, value);
                     s.Add(this.Variable, v);
                 }

@@ -25,5 +25,25 @@ namespace SCL
             else
                 this.Value = value;
         }
+
+        public bool IsComplexType()
+        {
+            return this.Type == SymbolType.DT_LST || this.Type == SymbolType.DT_SET || this.Type == SymbolType.DT_MAP;
+        }
+
+
+        public List<object> AsList()
+        {
+            return (List<object>)this.Value;
+        }
+        public HashSet<object> AsHSet()
+        {
+            return (HashSet<object>)this.Value;
+        }
+        public Dictionary<object, object> AsHMap()
+        {
+            return (Dictionary<object, object>)this.Value;
+        }
+
     }
 }

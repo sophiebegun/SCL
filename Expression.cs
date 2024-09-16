@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -22,8 +23,15 @@ namespace SCL
             this.rpnSymbols = ShuntingYard.ConvertToPostfix(symbols);
         }
 
+
         public object Evaluate(Scope s, Dictionary<string, ASTNode> fds)
         {
+            if (rpnSymbols == null)
+                return null;
+
+            if (rpnSymbols.Count == 0)
+                return null;
+
             Stack<object> stack = new Stack<object>();
 
             foreach (var symbol in rpnSymbols)
@@ -52,18 +60,66 @@ namespace SCL
                             object val = stack.Pop();
                             Var v = new Var(name, fdNode.Parameters[i].Type, val);
                             new_scope.Add(name, v);
-                            
+
                         }
 
                         var func_result = fdNode.Evaluate(new_scope, fds);
                         stack.Push(func_result);
                     }
-                    
+                    //This means it's a built in function such as get or add
+                    else if (Par.IsBuiltIn(symbol.Value))
+                    {
+                        string func = symbol.Value;
+
+                        List<object> args = new List<object>();
+
+                        Var obj = null;
+                        while (true)
+                        {
+                            object val = stack.Pop();
+                            if (val is Var)
+                            {
+                                obj = val as Var;
+                                break;
+                            }
+                            args.Insert(0, val);
+                        }
+
+                       
+                        
+                        if(!s.ContainsKey(obj.Name))
+                            throw new Exception("Object not found: " + obj.Name);
+                        
+                        if (func == "add")
+                        {
+                            if (obj.Type == SymbolType.DT_LST)
+                            {
+                                object value = args[0];
+                                obj.AsList().Add(value);
+                            }
+                            else if (obj.Type == SymbolType.DT_SET)
+                            {
+                                object value = args[0];
+                                obj.AsHSet().Add(value);
+                            }
+                            else if (obj.Type == SymbolType.DT_MAP)
+                            {
+
+                                object key = args[0];
+                                object value = args[1];
+                                obj.AsHMap().Add(key, value);
+                            }
+
+                        }
+
+                    }
                     //This means that this is a variable
                     else
                     {
-                        
-                        stack.Push(s[symbol.Value].Value);
+                        if(s[symbol.Value].IsComplexType())
+                            stack.Push(s[symbol.Value]);
+                        else
+                            stack.Push(s[symbol.Value].Value);
                     }
 
                         
@@ -137,7 +193,10 @@ namespace SCL
                     }
                 }
             }
-            
+
+            if (stack.Count == 0)
+                return null;
+
             object result = stack.Pop();
             return result;
         }

@@ -8,8 +8,9 @@ INTERPRETER
 1. Set up the state of execution of the program -CHECK
 2. Do simple arithmetic expression parsing -CHECK
 3. Do simple logical (boolean) expression parsing -CHECK
-4. Program flow - IN PROGRESS
-5. Do Function calls in expressions
+4. Program flow - CHECK
+5. Do Function calls in expressions - CHECK
+6. Lists/maps function calls - IN PROGRESS
 
 BUGS
 *. Fix Not operator
@@ -23,7 +24,7 @@ TESTING
 1. Set up automated tests
 
 
-DOCUMENTATION
-1. Document everythin
+DOCUMENTATION 
+1. Document everything
 
 *. Tests (Everyday)

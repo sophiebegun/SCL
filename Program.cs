@@ -5,7 +5,7 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/func_add.scl");
+string s = File.ReadAllText("source/hmap.scl");
 
 var list = lex.Analyze(s);
 
@@ -22,5 +22,4 @@ inter.Evaluate();
 
 
 //Hello
-
 

@@ -93,6 +93,11 @@
             // Pop any remaining operators from the stack
             while (stack.Count > 0)
             {
+                if (stack.Peek().Type == SymbolType.PAREN_START)
+                {
+                    stack.Pop();
+                    continue;
+                }
                 output.Add(stack.Pop());
             }
 
