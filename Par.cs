@@ -17,7 +17,7 @@ namespace SCL
 
 
         public static readonly ReadOnlyCollection<string> BuiltInFunctions = 
-         new ReadOnlyCollection<string>(new[] { "add", "get", "rem" });
+         new ReadOnlyCollection<string>(new[] { "add", "get", "rem", "count" });
 
         public static bool IsBuiltIn(string name)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,72 +46,12 @@ namespace SCL
                     //This means that this name is a function, not a variable
                     if (fds.ContainsKey(symbol.Value))
                     {
-                        string func = symbol.Value;
-                        ASTNode fdNode = fds[func];
-
-                        int argCount = fdNode.Parameters.Count;
-
-
-                        Scope new_scope = new Scope();
-
-                        // Pop arguments from stack in reverse order (right to left)
-                        for (int i = argCount - 1; i >= 0; i--)
-                        {
-                            string name = fdNode.Parameters[i].Name;
-                            object val = stack.Pop();
-                            Var v = new Var(name, fdNode.Parameters[i].Type, val);
-                            new_scope.Add(name, v);
-
-                        }
-
-                        var func_result = fdNode.Evaluate(new_scope, fds);
-                        stack.Push(func_result);
+                        ProcessCustomFunctionCall(fds, stack, symbol);
                     }
                     //This means it's a built in function such as get or add
                     else if (Par.IsBuiltIn(symbol.Value))
                     {
-                        string func = symbol.Value;
-
-                        List<object> args = new List<object>();
-
-                        Var obj = null;
-                        while (true)
-                        {
-                            object val = stack.Pop();
-                            if (val is Var)
-                            {
-                                obj = val as Var;
-                                break;
-                            }
-                            args.Insert(0, val);
-                        }
-
-                       
-                        
-                        if(!s.ContainsKey(obj.Name))
-                            throw new Exception("Object not found: " + obj.Name);
-                        
-                        if (func == "add")
-                        {
-                            if (obj.Type == SymbolType.DT_LST)
-                            {
-                                object value = args[0];
-                                obj.AsList().Add(value);
-                            }
-                            else if (obj.Type == SymbolType.DT_SET)
-                            {
-                                object value = args[0];
-                                obj.AsHSet().Add(value);
-                            }
-                            else if (obj.Type == SymbolType.DT_MAP)
-                            {
-
-                                object key = args[0];
-                                object value = args[1];
-                                obj.AsHMap().Add(key, value);
-                            }
-
-                        }
+                        ProcessInBuiltFunctionCall(s, stack, symbol);
 
                     }
                     //This means that this is a variable
@@ -149,46 +90,46 @@ namespace SCL
                     switch (symbol.Type)
                     {
                         case SymbolType.PLUS:
-                            stack.Push((double)leftOperand + (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) + Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.MINUS:
-                            stack.Push((double)leftOperand - (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) - Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.MUL:
-                            stack.Push((double)leftOperand * (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) * Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.DIV:
-                            stack.Push((double)leftOperand / (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) / Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.POW:
-                            stack.Push(Math.Pow((double)leftOperand, (double)rightOperand));
+                            stack.Push(Math.Pow(Convert.ToDouble(leftOperand), Convert.ToDouble(rightOperand)));
                             break;
                         case SymbolType.AMP:
-                            stack.Push((bool)leftOperand && (bool)rightOperand);
+                            stack.Push(Convert.ToBoolean(leftOperand) && Convert.ToBoolean(rightOperand));
                             break;
                         case SymbolType.PIPE:
-                            stack.Push((bool)leftOperand || (bool)rightOperand);
+                            stack.Push(Convert.ToBoolean(leftOperand) || Convert.ToBoolean(rightOperand));
                             break;
                         case SymbolType.NOT:
-                            stack.Push(!(bool)rightOperand);
+                            stack.Push(!Convert.ToBoolean(rightOperand));
                             break;
                         case SymbolType.EQ:
-                            stack.Push((double)leftOperand == (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) == Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.NOT_EQ:
-                            stack.Push((double)leftOperand != (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) != Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.GTE:
-                            stack.Push((double)leftOperand >= (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) >= Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.GT:
-                            stack.Push((double)leftOperand > (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) > Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.LTE:
-                            stack.Push((double)leftOperand <= (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) <= Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.LT:
-                            stack.Push((double)leftOperand < (double)rightOperand);
+                            stack.Push(Convert.ToDouble(leftOperand) < Convert.ToDouble(rightOperand));
                             break;
                     }
                 }
@@ -199,7 +140,138 @@ namespace SCL
 
             object result = stack.Pop();
             return result;
+
+       }
+
+        private void ProcessCustomFunctionCall(Dictionary<string, ASTNode> fds, Stack<object> stack, Symbol symbol)
+        {
+            string func = symbol.Value;
+            ASTNode fdNode = fds[func];
+
+            int argCount = fdNode.Parameters.Count;
+
+
+            Scope new_scope = new Scope();
+
+            // Pop arguments from stack in reverse order (right to left)
+            for (int i = argCount - 1; i >= 0; i--)
+            {
+                string name = fdNode.Parameters[i].Name;
+                object val = stack.Pop();
+                Var v = new Var(name, fdNode.Parameters[i].Type, val);
+                new_scope.Add(name, v);
+
+            }
+
+            var func_result = fdNode.Evaluate(new_scope, fds);
+            stack.Push(func_result);
         }
+
+        void ProcessInBuiltFunctionCall(Scope s, Stack<object> stack, Symbol symbol)
+        {
+            string func = symbol.Value;
+
+            List<object> args = new List<object>();
+
+            Var obj = null;
+            while (stack.Count>0)
+            {
+                object val = stack.Pop();
+                if (val is Var)
+                {
+                    obj = val as Var;
+                    break;
+                }
+                args.Insert(0, val);
+            }
+
+
+
+            if (!s.ContainsKey(obj.Name))
+                throw new Exception("Object not found: " + obj.Name);
+
+            if (func == "add")
+            {
+                if (obj.Type == SymbolType.DT_LST)
+                {
+                    object value = args[0];
+                    obj.AsList().Add(value);
+                }
+                else if (obj.Type == SymbolType.DT_SET)
+                {
+                    object value = args[0];
+                    obj.AsHSet().Add(value);
+                }
+                else if (obj.Type == SymbolType.DT_MAP)
+                {
+
+                    object key = args[0];
+                    object value = args[1];
+                    obj.AsHMap().Add(key, value);
+                }
+
+            }
+            else if (func == "rem")
+            {
+                if (obj.Type == SymbolType.DT_LST)
+                {
+                    int index = Convert.ToInt32(args[0]);
+                    obj.AsList().RemoveAt(index);
+                }
+                else if (obj.Type == SymbolType.DT_SET)
+                {
+                    object value = args[0];
+                    obj.AsHSet().Remove(value);
+                }
+                else if (obj.Type == SymbolType.DT_MAP)
+                {
+
+                    object key = args[0];
+                    obj.AsHMap().Remove(key);
+                }
+
+            }
+            else if (func == "get")
+            {
+                if (obj.Type == SymbolType.DT_LST)
+                {
+                    int index = Convert.ToInt32(args[0]);
+                    stack.Push(obj.AsList()[index]);
+                }
+                else if (obj.Type == SymbolType.DT_SET)
+                {
+                    object key = args[0];
+                    obj.AsHSet().TryGetValue(key, out var value);
+                    stack.Push(value);
+                }
+                else if (obj.Type == SymbolType.DT_MAP)
+                {
+                    object key = args[0];
+                    obj.AsHMap().TryGetValue(key, out var value);
+                    stack.Push(value);
+                }
+
+            }
+            else if (func == "count")
+            {
+                if (obj.Type == SymbolType.DT_LST)
+                {
+                    stack.Push(obj.AsList().Count);
+                }
+                else if (obj.Type == SymbolType.DT_SET)
+                {
+                    stack.Push(obj.AsHSet().Count);
+                }
+                else if (obj.Type == SymbolType.DT_MAP)
+                {
+                    stack.Push(obj.AsHMap().Count);
+                }
+
+            }
+
+
+        }
+
 
         public override string ToString()
         {

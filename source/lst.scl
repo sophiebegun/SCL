@@ -1,4 +1,14 @@
-﻿S lst int list
-F add(lst,1)
-S int a = get(lst,0)
-F rem(lst, 0)
+﻿S lst str l
+F add(l,"hello1")
+F add(l,"hello2")
+F add(l,"hello3")
+F add(l,"hello4")
+F rem(l,2)
+S int i = 0
+S str s = ""
+L (i < count(l))
+{
+	S s = get(l,i)
+	O s
+	S i = i + 1
+}

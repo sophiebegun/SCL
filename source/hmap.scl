@@ -1,4 +1,12 @@
-﻿S hmap int str hm
-F add(hm,1,"hello")
-S str a = get(hm,1)
-F rem(hm, 1)
+﻿S hmap int str m
+F add(m,1,"hello1")
+F add(m,2,"hello2")
+F add(m,3,"hello3")
+S int i = 0
+S str s = ""
+L (i < count(l))
+{
+	S s = get(l,i)
+	O s
+	S i = i + 1
+}
