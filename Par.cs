@@ -17,7 +17,7 @@ namespace SCL
 
 
         public static readonly ReadOnlyCollection<string> BuiltInFunctions = 
-         new ReadOnlyCollection<string>(new[] { "add", "get", "rem", "count" });
+         new ReadOnlyCollection<string>(new[] { "add", "get", "rem", "count", "set" });
 
         public static bool IsBuiltIn(string name)
         {
@@ -209,12 +209,32 @@ namespace SCL
 
                             Parameter p = new Parameter();
                             p.Type = list[pIndex].Type;
-                            p.Name = list[pIndex + 1].Value;
 
+                            if (!Symbol.IsComplexType(p.Type))
+                            {
+                                p.Name = list[pIndex + 1].Value;
+                                pIndex += 2;
+
+                            }
+                            else //If complex type
+                            {
+                                if (p.Type == SymbolType.DT_LST || p.Type == SymbolType.DT_SET)
+                                {
+                                    p.KeySubtype = list[pIndex + 1].Type;
+                                    p.Name = list[pIndex + 2].Value;
+                                    pIndex += 3;
+                                }
+                                else if(p.Type == SymbolType.DT_MAP)
+                                {
+                                    p.KeySubtype = list[pIndex + 1].Type;
+                                    p.ValueSubtype = list[pIndex + 2].Type;
+                                    p.Name = list[pIndex + 3].Value;
+                                    pIndex += 4;
+                                }
+                            }
                             n.Parameters.Add(p);
 
-                            pIndex += 2;
-
+                            
                             if (list[pIndex].Type == SymbolType.COM)
                                 pIndex++;
 

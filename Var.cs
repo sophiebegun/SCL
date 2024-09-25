@@ -16,20 +16,17 @@ namespace SCL
         {
             this.Name = name;
             this.Type = type;
-            if (type == SymbolType.DT_LST)
+            if (type == SymbolType.DT_LST && value == null)
                 this.Value = new List<object>();
-            else if (type == SymbolType.DT_SET)
+            else if (type == SymbolType.DT_SET && value == null)
                 this.Value = new HashSet<object>();
-            else if (type == SymbolType.DT_MAP)
+            else if (type == SymbolType.DT_MAP && value == null)
                 this.Value = new Dictionary<object, object>();
             else
                 this.Value = value;
         }
 
-        public bool IsComplexType()
-        {
-            return this.Type == SymbolType.DT_LST || this.Type == SymbolType.DT_SET || this.Type == SymbolType.DT_MAP;
-        }
+
 
 
         public List<object> AsList()

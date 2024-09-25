@@ -57,7 +57,7 @@ namespace SCL
                     //This means that this is a variable
                     else
                     {
-                        if(s[symbol.Value].IsComplexType())
+                        if(Symbol.IsComplexType(s[symbol.Value].Type))
                             stack.Push(s[symbol.Value]);
                         else
                             stack.Push(s[symbol.Value].Value);
@@ -158,6 +158,9 @@ namespace SCL
             {
                 string name = fdNode.Parameters[i].Name;
                 object val = stack.Pop();
+                if(val is Var)
+                    val = ((Var)val).Value;
+
                 Var v = new Var(name, fdNode.Parameters[i].Type, val);
                 new_scope.Add(name, v);
 
@@ -208,6 +211,29 @@ namespace SCL
                     object key = args[0];
                     object value = args[1];
                     obj.AsHMap().Add(key, value);
+                }
+
+            }
+            else if (func == "set")
+            {
+                if (obj.Type == SymbolType.DT_LST)
+                {
+                    int index = Convert.ToInt32(args[0]);
+                    object value = args[1];
+                    obj.AsList()[index] = value;
+
+                    Console.WriteLine("Set index:" + index + " value:" + value);
+                }
+                else if (obj.Type == SymbolType.DT_SET)
+                {
+                    throw new Exception("Op not supported on a HSET");
+                }
+                else if (obj.Type == SymbolType.DT_MAP)
+                {
+
+                    object key = args[0];
+                    object value = args[1];
+                    obj.AsHMap()[key] =  value;
                 }
 
             }

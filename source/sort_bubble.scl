@@ -1,0 +1,49 @@
+﻿S lst int bs
+F add(bs, 10)
+F add(bs, 3)
+F add(bs, 1)
+F add(bs, 2)
+
+F Bubble(bs)
+F Print(bs)
+#
+
+F Bubble lst int l
+{
+	S int temp = 0
+	S int n = count(l)
+	S int i = 0
+	S int j = 0
+	S int t2 = 0
+	L(i < (n- 1))
+	{ 
+		S j = 0
+		L(j < (n - i - 1))
+		{
+
+			C(get(l, j) > get(l, j + 1))
+			{
+				S temp = get(l, j)
+				S t2 = get(l, j + 1)
+				F set(l, j, t2)
+				F set(l, j + 1, temp)
+				O j
+			}
+			S j = j + 1
+		}
+		S i = i + 1
+	}
+}
+
+
+F Print lst int l
+{
+	S int i = 0
+	S int s = 0
+	L (i < count(l))
+	{
+		S s = get(l,i)
+		O s
+		S i = i + 1
+	}
+}

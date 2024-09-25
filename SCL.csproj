@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="source\sort_bubble.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="source\t_c_ex.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -4,6 +4,7 @@ F add(l,"hello2")
 F add(l,"hello3")
 F add(l,"hello4")
 F rem(l,2)
+F set(l,1,"hello2a")
 S int i = 0
 S str s = ""
 L (i < count(l))

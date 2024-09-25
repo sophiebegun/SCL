@@ -74,6 +74,11 @@ namespace SCL
         }
 
 
+        public static bool IsComplexType(SymbolType type)
+        {
+            return type == SymbolType.DT_LST || type == SymbolType.DT_SET || type == SymbolType.DT_MAP;
+        }
+
         public bool IsDataType()
         {
             switch (Type)
