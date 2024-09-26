@@ -21,6 +21,17 @@ namespace SCL
 
     }
 
+    class ReturnVar
+    {
+        public object Var { get; set; }
+
+
+        public ReturnVar(object v)
+        {
+            this.Var = v;
+        }
+    }
+
     internal class ASTNode
     {
         public ASTNode Parent { get; set;}
@@ -83,6 +94,8 @@ namespace SCL
                 for (int j = 0; j < this.Children.Count; j++)
                 {
                     var r = this.Children[j].Evaluate(s, fds);
+                    if (r is ReturnVar)
+                        return (r as ReturnVar).Var;
                     //If return statement then return r
                     if (this.Children[j].NodeType == ASTNodeType.Return) 
                         return r;
@@ -133,7 +146,12 @@ namespace SCL
                 if ((bool)value)
                 {
                     for (int j = 0; j < this.Children.Count; j++)
-                        this.Children[j].Evaluate(s, fds);
+                    {
+                        object v = this.Children[j].Evaluate(s, fds);
+
+                        if (this.Children[j].NodeType == ASTNodeType.Return)
+                            return new ReturnVar(v);
+                    }
                 }
             }
             else if (this.NodeType == ASTNodeType.L)
@@ -147,7 +165,11 @@ namespace SCL
                     if ((bool)value)
                     {
                         for (int j = 0; j < this.Children.Count; j++)
-                            this.Children[j].Evaluate(s, fds);
+                        {
+                            object v = this.Children[j].Evaluate(s, fds);
+                            if (this.Children[j].NodeType == ASTNodeType.Return)
+                                return new ReturnVar(v);
+                        }
                     }
                     else
                         break;

@@ -1,0 +1,12 @@
+﻿S int r = fib(30)
+O r
+#
+
+F fib int n: int
+{
+	C(n<=1)
+	{
+		# n
+	}
+	# fib(n-1) + fib(n-2)
+}

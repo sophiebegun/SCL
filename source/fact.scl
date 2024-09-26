@@ -1,0 +1,12 @@
+﻿S int r = fact(5)
+O r
+#
+
+F fact int n: int
+{
+	C(n<=1)
+	{
+		# 1
+	}
+	# n * fact(n-1)
+}

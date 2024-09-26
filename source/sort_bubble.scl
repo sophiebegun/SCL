@@ -24,8 +24,7 @@ F Bubble lst int l
 			C(get(l, j) > get(l, j + 1))
 			{
 				S temp = get(l, j)
-				S t2 = get(l, j + 1)
-				F set(l, j, t2)
+				F set(l, j,  get(l, j + 1))
 				F set(l, j + 1, temp)
 				O j
 			}
