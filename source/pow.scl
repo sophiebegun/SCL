@@ -1,0 +1,12 @@
+﻿S int r = pow(5,2)
+O r
+#
+
+F pow int x, int n: int
+{
+	C(n==0)
+	{
+		# 1
+	}
+	# x * pow(x,n-1)
+}

@@ -113,11 +113,12 @@ namespace SCL
                         case SymbolType.NOT:
                             stack.Push(!Convert.ToBoolean(rightOperand));
                             break;
-                        case SymbolType.EQ:
-                            stack.Push(Convert.ToDouble(leftOperand) == Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.NOT_EQ:
                             stack.Push(Convert.ToDouble(leftOperand) != Convert.ToDouble(rightOperand));
+                            break;
+                        case SymbolType.COMP:
+                            stack.Push(Convert.ToDouble(leftOperand) == Convert.ToDouble(rightOperand));
                             break;
                         case SymbolType.GTE:
                             stack.Push(Convert.ToDouble(leftOperand) >= Convert.ToDouble(rightOperand));

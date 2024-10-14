@@ -16,8 +16,6 @@ BUGS
 *. Fix Not operator
 *. Fix Printing on multiple lines
 
-HW.
-Introduce Double type -CHECK
 
 
 TESTING
@@ -26,5 +24,23 @@ TESTING
 
 DOCUMENTATION 
 1. Document everything
+	A. Introduction. 
+		-Why Build a Language
+		-Describe the 4 parts of the Language
+			-Lexer
+			-Parser
+			-Interpreter
+			-Compiler
+	B. SCL Language Features
+		-Describe Syntax
+	C. Document Lexer
+	D. Document Parser
+		-Describe Shunting Yard
+	E. Document Interpreter
 
 *. Tests (Everyday)
+
+
+HW.
+	1. QuickSort in SCL
+	2. Mergsort in SCL
