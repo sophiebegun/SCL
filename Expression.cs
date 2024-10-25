@@ -27,10 +27,7 @@ namespace SCL
 
         public object Evaluate(Scope s, Dictionary<string, ASTNode> fds)
         {
-            if (rpnSymbols == null)
-                return null;
-
-            if (rpnSymbols.Count == 0)
+            if (rpnSymbols == null || rpnSymbols.Count == 0)
                 return null;
 
             Stack<object> stack = new Stack<object>();
@@ -39,35 +36,25 @@ namespace SCL
             {
                 if (symbol.Type == SymbolType.NUMBER)
                 {
-                    stack.Push(Convert.ToDouble(symbol.Value));
+                    stack.Push(symbol.Value); // Push as is, to check type later
                 }
                 else if (symbol.Type == SymbolType.NAME)
                 {
-                    //This means that this name is a function, not a variable
-                    if (fds.ContainsKey(symbol.Value))
+                    if (fds.ContainsKey(symbol.Value.ToString()))
                     {
                         ProcessCustomFunctionCall(fds, stack, symbol);
                     }
-                    //This means it's a built in function such as get or add
-                    else if (Par.IsBuiltIn(symbol.Value))
+                    else if (Par.IsBuiltIn(symbol.Value.ToString()))
                     {
                         ProcessInBuiltFunctionCall(s, stack, symbol);
-
                     }
-                    //This means that this is a variable
                     else
                     {
-                        if(Symbol.IsComplexType(s[symbol.Value].Type))
-                            stack.Push(s[symbol.Value]);
+                        if (Symbol.IsComplexType(s[symbol.Value.ToString()].Type))
+                            stack.Push(s[symbol.Value.ToString()]);
                         else
-                            stack.Push(s[symbol.Value].Value);
+                            stack.Push(s[symbol.Value.ToString()].Value);
                     }
-
-                        
-
-
-
-                    
                 }
                 else if (symbol.Type == SymbolType.CONST)
                 {
@@ -90,16 +77,16 @@ namespace SCL
                     switch (symbol.Type)
                     {
                         case SymbolType.PLUS:
-                            stack.Push(Convert.ToDouble(leftOperand) + Convert.ToDouble(rightOperand));
+                            stack.Push(Add(leftOperand, rightOperand));
                             break;
                         case SymbolType.MINUS:
-                            stack.Push(Convert.ToDouble(leftOperand) - Convert.ToDouble(rightOperand));
+                            stack.Push(Subtract(leftOperand, rightOperand));
                             break;
                         case SymbolType.MUL:
-                            stack.Push(Convert.ToDouble(leftOperand) * Convert.ToDouble(rightOperand));
+                            stack.Push(Multiply(leftOperand, rightOperand));
                             break;
                         case SymbolType.DIV:
-                            stack.Push(Convert.ToDouble(leftOperand) / Convert.ToDouble(rightOperand));
+                            stack.Push(Divide(leftOperand, rightOperand));
                             break;
                         case SymbolType.POW:
                             stack.Push(Math.Pow(Convert.ToDouble(leftOperand), Convert.ToDouble(rightOperand)));
@@ -113,40 +100,71 @@ namespace SCL
                         case SymbolType.NOT:
                             stack.Push(!Convert.ToBoolean(rightOperand));
                             break;
-                            break;
                         case SymbolType.NOT_EQ:
-                            stack.Push(Convert.ToDouble(leftOperand) != Convert.ToDouble(rightOperand));
+                            stack.Push(!Equal(leftOperand, rightOperand));
                             break;
                         case SymbolType.COMP:
-                            stack.Push(Convert.ToDouble(leftOperand) == Convert.ToDouble(rightOperand));
+                            stack.Push(Equal(leftOperand, rightOperand));
                             break;
                         case SymbolType.GTE:
-                            stack.Push(Convert.ToDouble(leftOperand) >= Convert.ToDouble(rightOperand));
+                            stack.Push(Compare(leftOperand, rightOperand) >= 0);
                             break;
                         case SymbolType.GT:
-                            stack.Push(Convert.ToDouble(leftOperand) > Convert.ToDouble(rightOperand));
+                            stack.Push(Compare(leftOperand, rightOperand) > 0);
                             break;
                         case SymbolType.LTE:
-                            stack.Push(Convert.ToDouble(leftOperand) <= Convert.ToDouble(rightOperand));
+                            stack.Push(Compare(leftOperand, rightOperand) <= 0);
                             break;
                         case SymbolType.LT:
-                            stack.Push(Convert.ToDouble(leftOperand) < Convert.ToDouble(rightOperand));
+                            stack.Push(Compare(leftOperand, rightOperand) < 0);
                             break;
                     }
                 }
             }
 
-            if (stack.Count == 0)
-                return null;
+            return stack.Count > 0 ? stack.Pop() : null;
+        }
 
-            object result = stack.Pop();
-            return result;
+        // Helper methods for arithmetic operations
+        private object Add(object left, object right)
+        {
+            if (left is int && right is int) return (int)left + (int)right;
+            return Convert.ToDouble(left) + Convert.ToDouble(right);
+        }
 
-       }
+        private object Subtract(object left, object right)
+        {
+            if (left is int && right is int) return (int)left - (int)right;
+            return Convert.ToDouble(left) - Convert.ToDouble(right);
+        }
+
+        private object Multiply(object left, object right)
+        {
+            if (left is int && right is int) return (int)left * (int)right;
+            return Convert.ToDouble(left) * Convert.ToDouble(right);
+        }
+
+        private object Divide(object left, object right)
+        {
+            if (left is int && right is int) return (int)left / (int)right;
+            return Convert.ToDouble(left) / Convert.ToDouble(right);
+        }
+
+        private bool Equal(object left, object right)
+        {
+            if (left is int && right is int) return (int)left == (int)right;
+            return Convert.ToDouble(left) == Convert.ToDouble(right);
+        }
+
+        private int Compare(object left, object right)
+        {
+            if (left is int && right is int) return ((int)left).CompareTo((int)right);
+            return Convert.ToDouble(left).CompareTo(Convert.ToDouble(right));
+        }
 
         private void ProcessCustomFunctionCall(Dictionary<string, ASTNode> fds, Stack<object> stack, Symbol symbol)
         {
-            string func = symbol.Value;
+            string func = symbol.Value.ToString();
             ASTNode fdNode = fds[func];
 
             int argCount = fdNode.Parameters.Count;
@@ -173,7 +191,7 @@ namespace SCL
 
         void ProcessInBuiltFunctionCall(Scope s, Stack<object> stack, Symbol symbol)
         {
-            string func = symbol.Value;
+            string func = symbol.Value.ToString();
 
             List<object> args = new List<object>();
 

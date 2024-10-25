@@ -7,8 +7,7 @@ F add(l, 6)
 F add(l, 7)
 S int n = count(l)
 
-
-QuickSort(l, 0, n-1)
+F QuickSort(l, 0, n-1)
 
 F Print(l)
 
@@ -16,12 +15,13 @@ F Print(l)
 
 F QuickSort lst int l, int low, int high
 {
+	S int pivotIndex = 0
 	C(low < high)
 	{
-		S int pivotIndex = Partiton(l, low, high)
+		S pivotIndex = Partition(l, low, high)
 
-		QuickSort(l, low, pivotIndex - 1)
-		QuickSort(l, pivotIndex + 1, high)
+		F QuickSort(l, low, pivotIndex - 1)
+		F QuickSort(l, pivotIndex + 1, high)
 
 	}
 }
@@ -33,16 +33,17 @@ F Partition lst int l, int low, int high: int
 	S int i = low - 1
 
 	S j = low
+
 	L(j < high)
 	{
 		C(get(l, j) <= pivot)
 		{
 			S i = i + 1
-			Swap(l, i, j)
+			F Swap(l, i, j)
 		}
 		S j = j + 1
 	}
-	Swap(l, i + 1, high)
+	F Swap(l, i + 1, high)
 	# i + 1
 }
 
@@ -50,7 +51,7 @@ F Swap lst int l, int i, int j
 {
 	S int temp = get(l, i)
 	F set(l, i, get(l, j))
-	get(l, j) = S temp
+	F set(l, j, temp)
 }
 
 F Print lst int l

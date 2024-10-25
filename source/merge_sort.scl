@@ -17,15 +17,16 @@ F MergeSort lst int l, int left, int right
 	{
 		
 		S mid = (left + right) / 2
-		MergeSort(l, left, mid)
-		MergeSort(l, mid + 1, right)
-		Merge(l, left, mid, right)
+		O cat("mid is ", mid)
+		F MergeSort(l, left, mid)
+		F MergeSort(l, mid + 1, right)
+		F Merge(l, left, mid, right)
 	}
 }
 
 F Merge lst int l, int left, int mid, int right
 {
-
+	O cat("count ",count(l))
 	S int n1 = mid - left + 1
 	S int n2 = right - mid
 	S int i = 0
@@ -37,13 +38,13 @@ F Merge lst int l, int left, int mid, int right
 
 	L(i < n1)
 	{
-		F set(leftL, i, get(l, left + 1))
+		F add(leftL, get(l, left + 1))
 		S i = i + 1
 	}
 	S i = 0
 	L(i < n2)
 	{
-		F set(rightL, i, get(l, mid + 1 + i))
+		F add(rightL, get(l, mid + 1 + i))
 		S i = i + 1
 	}
 	S i = 0      
@@ -71,14 +72,14 @@ F Merge lst int l, int left, int mid, int right
 
 	L(i1 < n1)
 	{
-		F set(l, k, set(leftL, i1))
+		F set(l, k, get(leftL, i1))
 		S i1 = i1 + 1
 		S k = k + 1
 	}
 
 	L(i2 < n2)
 	{
-		F set(l, k, set(rightL, i2)
+		F set(l, k, get(rightL, i2))
 		S i2 = i2 + 1
 		S k = k + 1
 	}

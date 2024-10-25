@@ -5,7 +5,7 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/fib.scl");
+string s = File.ReadAllText("source/quick_sort.scl");
 
 var list = lex.Analyze(s);
 

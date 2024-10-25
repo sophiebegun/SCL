@@ -60,12 +60,21 @@ namespace SCL
     internal class Symbol
     {
         public SymbolType Type { get; set; }
-        public string Value { get; set; }  //Only used for Name & Number
+        public object Value { get; set; }  //Only used for Name & Number
 
         public Symbol(SymbolType type, string value)
         {
             Type = type;
-            Value = value;
+
+            if (type == SymbolType.NUMBER)
+            {
+                if(value.Contains('.'))
+                    Value = double.Parse(value);
+                else
+                    Value = int.Parse(value);
+            }
+            else
+                Value = value;
         }
 
         public Symbol(SymbolType type)
@@ -99,7 +108,7 @@ namespace SCL
         public override string ToString()
         {
             if (Type == SymbolType.NAME || Type == SymbolType.NUMBER)
-                return Value;
+                return Value.ToString();
             else
             {
                 return Type.ToString();

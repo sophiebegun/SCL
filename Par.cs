@@ -134,7 +134,7 @@ namespace SCL
                     else
                     {
                         n.NodeType = ASTNodeType.FD;
-                        n.Variable = list[i + 1].Value;
+                        n.Variable = list[i + 1].Value.ToString();
 
                         int pIndex = i + 2;
                         while (true)
@@ -156,7 +156,7 @@ namespace SCL
 
                             if (!Symbol.IsComplexType(p.Type))
                             {
-                                p.Name = list[pIndex + 1].Value;
+                                p.Name = list[pIndex + 1].Value.ToString();
                                 pIndex += 2;
 
                             }
@@ -165,14 +165,14 @@ namespace SCL
                                 if (p.Type == SymbolType.DT_LST || p.Type == SymbolType.DT_SET)
                                 {
                                     p.KeySubtype = list[pIndex + 1].Type;
-                                    p.Name = list[pIndex + 2].Value;
+                                    p.Name = list[pIndex + 2].Value.ToString();
                                     pIndex += 3;
                                 }
                                 else if(p.Type == SymbolType.DT_MAP)
                                 {
                                     p.KeySubtype = list[pIndex + 1].Type;
                                     p.ValueSubtype = list[pIndex + 2].Type;
-                                    p.Name = list[pIndex + 3].Value;
+                                    p.Name = list[pIndex + 3].Value.ToString();
                                     pIndex += 4;
                                 }
                             }
@@ -211,7 +211,7 @@ namespace SCL
                             if (list[i + 2].Type != SymbolType.NAME)
                                 throw new Exception("Expecting name");
 
-                            n.Variable = list[i + 2].Value;
+                            n.Variable = list[i + 2].Value.ToString();
 
                             if (list[i + 3].Type != SymbolType.EQ)
                                 throw new Exception("Expecting assignment operator = ");
@@ -223,7 +223,7 @@ namespace SCL
                             if (n.DeclarationType == SymbolType.DT_LST || n.DeclarationType == SymbolType.DT_SET)
                             {
                                 n.KeySubtype = list[i + 2].Type;
-                                n.Variable = list[i + 3].Value;
+                                n.Variable = list[i + 3].Value.ToString();
 
                                 if(list[i + 3].Type != SymbolType.NAME)
                                     throw new Exception("Expecting name");
@@ -235,7 +235,7 @@ namespace SCL
 
                                 n.KeySubtype = list[i + 2].Type;
                                 n.ValueSubtype = list[i + 3].Type;
-                                n.Variable = list[i + 4].Value;
+                                n.Variable = list[i + 4].Value.ToString();
 
                                 if (list[i + 4].Type != SymbolType.NAME)
                                     throw new Exception("Expecting name");
@@ -252,7 +252,7 @@ namespace SCL
                     //This means this is an assignment
                     else 
                     {
-                        n.Variable = list[i + 1].Value;
+                        n.Variable = list[i + 1].Value.ToString();
                         if (list[i + 2].Type != SymbolType.EQ)
                             throw new Exception("Expecting assignment operator = ");
                         expOffset = i + 3;
@@ -286,7 +286,7 @@ namespace SCL
                 if (symbol.Type == SymbolType.I)
                 {
                     n.NodeType = ASTNodeType.I;
-                    n.Variable = list[i+1].Value;
+                    n.Variable = list[i+1].Value.ToString();
                     SetParent(parent, n);
 
                 }

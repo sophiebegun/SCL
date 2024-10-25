@@ -23,7 +23,16 @@ namespace SCL
             else if (type == SymbolType.DT_MAP && value == null)
                 this.Value = new Dictionary<object, object>();
             else
-                this.Value = value;
+            {
+                if(type == SymbolType.DT_INT)
+                    this.Value = Convert.ToInt32(value);
+                else if(type == SymbolType.DT_BOOL)
+                    this.Value = Convert.ToBoolean(value);
+                else if (type == SymbolType.DT_DOUBLE)
+                    this.Value = Convert.ToDouble(value);
+                else
+                    this.Value = value;
+            }
         }
 
 
