@@ -31,76 +31,6 @@ namespace SCL
 
 
 
-        /*
- *
- *
- * S int i = 0
-   S i = i + 10
-   L i<=10
-   {
-    O i
-    S i=i+1
-   }
-
-   C i<=10
-   {
-    O i
-    S i=i+1
-   }
-
-
-
-   L i<=10
-   {
-    O i
-    S i=i+1
-    C i<=10
-    {
-        O i
-        S i=i+1
-        C i<=10
-        {
-           O i
-           S i=i+1
-           C i<=10
-           {
-              O i
-              S i=i+1
-           }
-        }
-    }
-           
-   }
-
-
-
-   L i<=10
-        {
-            O i
-            S i=i+1
-            C i<=10
-        }
-
-   L i<=10
-        {
-            O i
-            S i=i+1
-            C i<=10
-            L i<=10
-                {
-                    O i
-                    S i=i+1
-                    C i<=10
-                }
-            L i<=10
-               {
-                   O i
-                   S i=i+1
-                   C i<=10
-               }
-        }
-   
- */
 
 
         public int FindEndBoundryIndex(List<Symbol> list, int startIndex)
@@ -350,13 +280,23 @@ namespace SCL
                 if (symbol.Type == SymbolType.O)
                 {
                     n.NodeType = ASTNodeType.O;
-                    n.Variable = list[i + 1].Value;
+                    //n.Variable = list[i + 1].Value;
+
+                    int j = i + 1;
+                    List<Symbol> expList = new List<Symbol>();
+                    while (list[j].Type != SymbolType.EOL && list[j].Type != SymbolType.COM)
+                        expList.Add(list[j++]);
+                    n.Exp = new Expression(expList);
+
+                    if (list[j].Type == SymbolType.COM)
+                        n.IsNL = false;
+
+
                     SetParent(parent, n);
 
-                    if (list[i+2].Type == SymbolType.COM)
-                    {
-                        n.IsNL = false;
-                    }
+
+
+                    
                 }
 
                 if (symbol.Type == SymbolType.SWIGGLE)

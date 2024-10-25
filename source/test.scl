@@ -1,0 +1,24 @@
+﻿S lst int l
+F add(l, 1)
+F add(l, 2)
+
+F Test(l, 0)
+
+F Test lst int i, int j
+{
+	Print(i)
+	O j
+}
+
+
+F Print lst int l
+{
+	S int i = 0
+	S int s = 0
+	L (i < count(l))
+	{
+		S s = get(l,i)
+		O s
+		S i = i + 1
+	}
+}

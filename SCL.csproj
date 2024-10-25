@@ -14,10 +14,19 @@
     <None Update="source\fib.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="source\merge_sort.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="source\pow.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="source\quick_sort.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="source\sort_bubble.scl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="source\test.scl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="source\t_c_ex.scl">

@@ -177,7 +177,7 @@ namespace SCL
             }
             else if (this.NodeType == ASTNodeType.O)
             {
-                object value = s[this.Variable].Value;
+                object value = this.Exp.Evaluate(s, fds);
                 if (this.IsNL)
                     Console.WriteLine(value);
                 else

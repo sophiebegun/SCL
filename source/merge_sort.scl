@@ -1,0 +1,97 @@
+﻿S lst int l 
+F add(l, 12)
+F add(l, 11)
+S int n = count(l)
+
+
+F MergeSort(l, 0, count(l))
+
+F Print(l)
+#
+
+
+F MergeSort lst int l, int left, int right
+{
+	S int mid = 0
+	C(left < right)
+	{
+		
+		S mid = (left + right) / 2
+		MergeSort(l, left, mid)
+		MergeSort(l, mid + 1, right)
+		Merge(l, left, mid, right)
+	}
+}
+
+F Merge lst int l, int left, int mid, int right
+{
+
+	S int n1 = mid - left + 1
+	S int n2 = right - mid
+	S int i = 0
+	S lst int leftL 
+	S lst int rightL 
+	S int i1 = 0
+	S int i2 = 0
+	S int k = left
+
+	L(i < n1)
+	{
+		F set(leftL, i, get(l, left + 1))
+		S i = i + 1
+	}
+	S i = 0
+	L(i < n2)
+	{
+		F set(rightL, i, get(l, mid + 1 + i))
+		S i = i + 1
+	}
+	S i = 0      
+
+	S i1 = 0
+	S i2 = 0
+	S k = left
+
+	L(i1 < n1 & i2 < n2)
+	{
+		C(get(leftL, i1) <= get(rightL, i2))
+		{
+			F set(l, k, get(leftL, i1))
+			S i1 = i1 + 1
+		}
+
+		C(get(leftL, i1) > get(rightL, i2))
+		{
+			F set(l, k, get(rightL, i2))
+			S i2 = i2 + 1
+		}
+		S k = k + 1
+		
+	}
+
+	L(i1 < n1)
+	{
+		F set(l, k, set(leftL, i1))
+		S i1 = i1 + 1
+		S k = k + 1
+	}
+
+	L(i2 < n2)
+	{
+		F set(l, k, set(rightL, i2)
+		S i2 = i2 + 1
+		S k = k + 1
+	}
+}
+
+F Print lst int l
+{
+	S int i = 0
+	S int s = 0
+	L (i < count(l))
+	{
+		S s = get(l,i)
+		O s
+		S i = i + 1
+	}
+}

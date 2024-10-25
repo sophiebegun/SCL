@@ -1,5 +1,7 @@
-﻿S int r = fib(30)
-O r
+﻿S int r = 1
+S int r2 = 2
+O r + r2
+
 #
 
 F fib int n: int
