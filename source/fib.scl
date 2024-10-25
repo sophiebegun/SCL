@@ -1,6 +1,6 @@
 ﻿S int r = 1
 S int r2 = 2
-O r + r2
+O cat(r,r2)
 
 #
 

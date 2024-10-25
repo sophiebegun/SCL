@@ -16,12 +16,26 @@ namespace SCL
         ASTNode root = null;
 
 
-        public static readonly ReadOnlyCollection<string> BuiltInFunctions = 
-         new ReadOnlyCollection<string>(new[] { "add", "get", "rem", "count", "set" });
+        public static readonly ReadOnlyCollection<string> BuiltInMethodTypeFunctions = 
+         new ReadOnlyCollection<string>(new[] { "add", "get", "rem", "count", "set"});
+
+        public static readonly ReadOnlyCollection<string> BuiltInSimpleTypeFunctions =
+         new ReadOnlyCollection<string>(new[] { "cat" });
+
 
         public static bool IsBuiltIn(string name)
         {
-            return BuiltInFunctions.Contains(name);
+            return IsBuiltInMethodType(name) || IsBuiltInSimple(name);
+        }
+
+        public static bool IsBuiltInSimple(string name)
+        {
+            return BuiltInSimpleTypeFunctions.Contains(name);
+        }
+
+        public static bool IsBuiltInMethodType(string name)
+        {
+            return BuiltInMethodTypeFunctions.Contains(name);
         }
 
 
@@ -284,11 +298,11 @@ namespace SCL
 
                     int j = i + 1;
                     List<Symbol> expList = new List<Symbol>();
-                    while (list[j].Type != SymbolType.EOL && list[j].Type != SymbolType.COM)
+                    while (list[j].Type != SymbolType.EOL)
                         expList.Add(list[j++]);
                     n.Exp = new Expression(expList);
 
-                    if (list[j].Type == SymbolType.COM)
+                    if (list[j-1].Type == SymbolType.COM)
                         n.IsNL = false;
 
 

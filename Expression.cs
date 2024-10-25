@@ -190,11 +190,20 @@ namespace SCL
             }
 
 
+            if (Par.IsBuiltInMethodType(func))
+            {
+                if (!s.ContainsKey(obj.Name))
+                    throw new Exception("Object not found: " + obj.Name);
+            }
 
-            if (!s.ContainsKey(obj.Name))
-                throw new Exception("Object not found: " + obj.Name);
-
-            if (func == "add")
+            if (func == "cat")
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (object val in args)
+                    sb.Append(val.ToString());
+                stack.Push(sb.ToString());
+            }
+            else if (func == "add")
             {
                 if (obj.Type == SymbolType.DT_LST)
                 {
