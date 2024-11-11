@@ -2,10 +2,19 @@
 
 using SCL;
 
+//Console.WriteLine("C#");
+//List<int> l = new List<int> { 300, 200, 100};
+
+//MergeS.MergeSort(l, 0, l.Count - 1);
+//MergeS.Print(l);
+
+//Console.ReadLine();
+
+
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/quick_sort.scl");
+string s = File.ReadAllText("source/merge_sort.scl");
 
 var list = lex.Analyze(s);
 

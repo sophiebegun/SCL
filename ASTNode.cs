@@ -118,7 +118,7 @@ namespace SCL
             else if (this.NodeType == ASTNodeType.S)
             {
                 object value = this.Exp.Evaluate(s, fds);
-                if (value is bool && this.DeclarationType != SymbolType.DT_BOOL)
+                if (value is bool && (this.DeclarationType != SymbolType.DT_BOOL && this.DeclarationType!= SymbolType.NONE))
                     throw new Exception("Trying to assign a Boolean evaluation to a " + this.DeclarationType.ToString() + " type");
 
 

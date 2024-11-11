@@ -45,9 +45,9 @@ namespace SCL
                case "!=": return new Symbol(SymbolType.NOT_EQ, s);
                 case ">=": return new Symbol(SymbolType.GTE, s);
                case "<=": return new Symbol(SymbolType.LTE, s);
-               default: return null;
+              
+ default: return null;
             }
-
         }
 
         //S int hello = 1223

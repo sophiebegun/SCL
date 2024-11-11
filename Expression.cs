@@ -189,6 +189,13 @@ namespace SCL
             stack.Push(func_result);
         }
 
+
+        object CopyObject(object obj)
+        {
+            if (obj == null) return null;
+            return Convert.ChangeType(obj, obj.GetType());
+        }
+
         void ProcessInBuiltFunctionCall(Scope s, Stack<object> stack, Symbol symbol)
         {
             string func = symbol.Value.ToString();
@@ -225,19 +232,19 @@ namespace SCL
             {
                 if (obj.Type == SymbolType.DT_LST)
                 {
-                    object value = args[0];
+                    object value = CopyObject(args[0]);
                     obj.AsList().Add(value);
                 }
                 else if (obj.Type == SymbolType.DT_SET)
                 {
-                    object value = args[0];
+                    object value = CopyObject(args[0]);
                     obj.AsHSet().Add(value);
                 }
                 else if (obj.Type == SymbolType.DT_MAP)
                 {
 
-                    object key = args[0];
-                    object value = args[1];
+                    object key = CopyObject(args[0]);
+                    object value = CopyObject(args[1]);
                     obj.AsHMap().Add(key, value);
                 }
 
@@ -247,7 +254,7 @@ namespace SCL
                 if (obj.Type == SymbolType.DT_LST)
                 {
                     int index = Convert.ToInt32(args[0]);
-                    object value = args[1];
+                    object value = CopyObject(args[1]);
                     obj.AsList()[index] = value;
 
                     Console.WriteLine("Set index:" + index + " value:" + value);
@@ -260,7 +267,7 @@ namespace SCL
                 {
 
                     object key = args[0];
-                    object value = args[1];
+                    object value = CopyObject(args[1]);
                     obj.AsHMap()[key] =  value;
                 }
 

@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace SCL
 {
-    internal class mergesortc_
+    internal class MergeS
     {
-        static void MergeSort(List<int> l, int left, int right)
+        // Merge Sort function
+        public static void MergeSort(List<int> l, int left, int right)
         {
             if (left < right)
             {
                 int mid = (left + right) / 2;
+                Console.WriteLine("mid " + mid);
                 MergeSort(l, left, mid);
                 MergeSort(l, mid + 1, right);
                 Merge(l, left, mid, right);
@@ -20,37 +22,48 @@ namespace SCL
         }
 
         // Merge function to merge two sorted subarrays
-        static void Merge(List<int> l, int left, int mid, int right)
+        public static void Merge(List<int> l, int left, int mid, int right)
         {
             int n1 = mid - left + 1;
             int n2 = right - mid;
 
-            List<int> leftL = new List<int>(n1);
-            List<int> rightL = new List<int>(n2);
+            List<int> leftL = new List<int>();
+            List<int> rightL = new List<int>();
 
             // Copying data to temp lists leftL and rightL
             for (int i = 0; i < n1; i++)
             {
+                Console.WriteLine("d1:" + (left + i) + ", " + l[left + i]);
                 leftL.Add(l[left + i]);
             }
 
             for (int i = 0; i < n2; i++)
             {
+                Console.WriteLine("d2:" + (mid + 1 + i) +  ", " + l[mid + 1 + i]);
                 rightL.Add(l[mid + 1 + i]);
             }
 
             int i1 = 0, i2 = 0, k = left;
 
+            Console.WriteLine("n1 " + n1 + "," + "n2 " + n2 + ", k " + k);
+            Print(leftL);
+            Print(rightL);
+
             // Merging the two lists back into the main list
             while (i1 < n1 && i2 < n2)
             {
+                Console.WriteLine(i1 + " " + i2);
+                Console.WriteLine("Left len " + leftL.Count + " Right len " + rightL.Count);
+
                 if (leftL[i1] <= rightL[i2])
                 {
+                    Console.WriteLine("if");
                     l[k] = leftL[i1];
                     i1++;
                 }
                 else
                 {
+                    Console.WriteLine("else");
                     l[k] = rightL[i2];
                     i2++;
                 }
@@ -75,7 +88,7 @@ namespace SCL
         }
 
         // Print function to print the list
-        static void Print(List<int> l)
+        public static void Print(List<int> l)
         {
             for (int i = 0; i < l.Count; i++)
             {
@@ -84,18 +97,5 @@ namespace SCL
             Console.WriteLine();
         }
 
-        // Main function to test the merge sort
-        public static void TestCSharp(string[] args)
-        {
-            List<int> l = new List<int> { 12, 11, 13, 5, 6, 7 };
-
-            Console.WriteLine("Given list:");
-            Print(l);
-
-            MergeSort(l, 0, l.Count - 1);
-
-            Console.WriteLine("\nSorted list:");
-            Print(l);
-        }
     }
 }
