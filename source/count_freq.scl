@@ -1,0 +1,42 @@
+﻿S lst str l
+S hmap str int m
+F CountFreq(l,m)
+F Print(m)
+#
+
+F CountFreq lst str l, hmap str int m
+{
+	S int i = 0
+	S bool exists = false
+	S str item = ""
+	L (i < count(l))
+	{
+		S item = get(l,i)
+		S exists = has(m,item)
+		C (exists)
+		{
+			set(m,item,get(m,item) + 1)
+		}
+
+		C(exists == false)
+		{
+			set(m,item,1)
+		}
+
+
+		S i = i + 1
+	}
+}
+
+
+F Print hmap str int m
+{
+	S int i = 0
+	S lst str keys 
+	S keys = get_keys(m)
+	L (i < count(keys))
+	{
+		O get(m,get(l,i))
+		S i = i + 1
+	}
+}

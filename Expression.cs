@@ -313,6 +313,48 @@ namespace SCL
                 }
 
             }
+            else if (func == "get_keys")
+            {
+                if (obj.Type == SymbolType.DT_LST)
+                {
+                    throw new Exception("Op not supported on a lst");
+                }
+                else if (obj.Type == SymbolType.DT_SET)
+                {
+                    List<object> lst = new List<object>(obj.AsHSet());
+                    stack.Push(lst);
+                }
+                else if (obj.Type == SymbolType.DT_MAP)
+                {
+                    List<object> lst = new List<object>(obj.AsHMap().Keys);
+                    stack.Push(lst);
+                }
+
+            }
+            else if (func == "has")
+            {
+                if (obj.Type == SymbolType.DT_LST)
+                {
+                    int index = Convert.ToInt32(args[0]);
+                    bool b = false;
+                    if(obj.AsList().Count < index)
+                        b = true;
+                    stack.Push(b);
+                }
+                else if (obj.Type == SymbolType.DT_SET)
+                {
+                    object key = args[0];
+                    bool b = obj.AsHSet().Contains(key);
+                    stack.Push(b);
+                }
+                else if (obj.Type == SymbolType.DT_MAP)
+                {
+                    object key = args[0];
+                    bool b = obj.AsHMap().ContainsKey(key);
+                    stack.Push(b);
+                }
+
+            }
             else if (func == "count")
             {
                 if (obj.Type == SymbolType.DT_LST)

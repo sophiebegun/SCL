@@ -14,7 +14,7 @@ using SCL;
 Lex lex = new Lex();
 
 
-string s = File.ReadAllText("source/merge_sort.scl");
+string s = File.ReadAllText("source/count_freq.scl");
 
 var list = lex.Analyze(s);
 

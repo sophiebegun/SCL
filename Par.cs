@@ -17,7 +17,7 @@ namespace SCL
 
 
         public static readonly ReadOnlyCollection<string> BuiltInMethodTypeFunctions = 
-         new ReadOnlyCollection<string>(new[] { "add", "get", "rem", "count", "set"});
+         new ReadOnlyCollection<string>(new[] { "add", "get", "rem", "count", "set", "has","get_keys"});
 
         public static readonly ReadOnlyCollection<string> BuiltInSimpleTypeFunctions =
          new ReadOnlyCollection<string>(new[] { "cat" });
