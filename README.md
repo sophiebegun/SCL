@@ -13,4 +13,27 @@ Many other coding languages are known to have key words to denote conditionality
 * When creating a variable “S int a = 0” would be an appropriate syntax. 
 * When showing an if statement or any sort of conditionality “C(‘boolean expression’)” would be appropriate syntax. 
 * When showing a loop statement “L(‘boolean expression’)” would be appropriate syntax.
+Moreover, to keep consistency and simplicity throughout the language, denoting a function with “F” and inputs and outputs as “O” and “I” respectively, allow a coder to keep organized.
 
+As any other language, SCL has lists, hashmaps, hashsets, and speciality functions. 
+* A hashmap, or hmap in SCL, behaves the same way as a dictionary, including a key and a value 
+* **Creating an hmap, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case hmap, and then the datatypes of both the key and the value, respectively. Lastly, the name is indicated.  Ex: S hmap int str m
+* A hashset, or hset in SCL, behaves the same way as a hashset, using a key. 
+* **Creating an hset, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case hset, and then the datatype used. Lastly, the name is indicated.  Ex: S hset int h
+* A list, or lst in SCL, behaves the same way as a list.
+* **Creating a lst, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case lst, and then the datatype used. Lastly, the name is indicated.  Ex: S lst int l
+* **This is some sample code, which creates list l and adds 4 strings to it. Then it removes the third time, “hello3” and updates the second item to “helo2a”. The loop goes through each item in the list and prints each value.
+F add(l,"hello1")
+F add(l,"hello2")
+F add(l,"hello3")
+F add(l,"hello4")
+F rem(l,2)
+F set(l,1,"hello2a")
+S int i = 0
+S str s = ""
+L (i < count(l))
+{
+S s = get(l,i)
+O s
+S i = i + 1
+}
