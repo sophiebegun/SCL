@@ -50,6 +50,21 @@ SCL supports several built-in data structures, each with simple syntax:
 ### Example Code
 
 This code demonstrates creating a list, adding items, removing an element, updating an item, and then looping through the list to print each value:
+F add(l,"hello1")
+F add(l,"hello2")
+F add(l,"hello3")
+F add(l,"hello4")
+F rem(l,2)
+F set(l,1,"hello2a")
+S int i = 0
+S str s = ""
+L (i < count(l))
+{
+ S s = get(l,i)
+             O s
+             S i = i + 1
+             }
+
 
 ### Built-in Functions
 
@@ -72,16 +87,16 @@ Expressions are combinations of variables and values that evaluate to a single r
 The **Lexer** is responsible for breaking down the raw code into tokens, making it easier for the **Parser** to process. The Lexer includes several key functions:
 
 ### `Analyze`
-This function processes a block of text, breaking it into individual lines and collecting them into a list of symbols. It uses a `StringReader` to read the text from a stream and processes each line with the `AnalyzeLine` function.
+Essentially, this method processes a block of text by breaking it down into individual lines and collects the results in a list of symbols. A new list is made to store those symbols and a StringReader is used to read the string from a stream and calls “AnalyzeLine” to process those lines. Those lines are added to a temporary list, which is then added to the main list.  
 
 ### `ParseDoubleToken`
-This function checks if two consecutive characters form a valid double token (e.g., `==`). It combines the characters and returns the corresponding symbol.
+	This method checks if the characters at a certain index are valid double tokens, meaning they have 2 symbols. It takes a string and an index as parameters, and returns a Symbol. It checks if the index is the last character of the line, and returns null if true. Then, it combines the character at the index with the next character to form a double token. A switch statement is carried out, which returns a new symbol based on token value. 
 
 ### `AnalyzeLine`
-This function processes a single line of text, character by character. It identifies strings, numbers, and symbols, skipping whitespaces and adding constants when necessary. The function collects tokens into a list, which is returned to the main Lexer.
+This function processes a line of text character by character, showing string double tokens, numbers, identifiers, individual characters, accumulating the results in a list of Symbol objects. It skips whitespaces and uses a StringBuilder to collect characters between quotes, adding a “const” symbol to the list. It processes letters and numbers, using another StringBuilder to form tokens, mapping them to corresponding symbols. If a digiti/dot is shown, it collects the number and creates a new “number” symbol. It also checks for double tokens, and adds them to the list. It returns the list of Symbols.
 
 ### `Map`
-The `Map` function takes a string as input and returns the corresponding symbol. It uses a switch statement to match the string against keywords, data types, and operators. If no match is found, it defaults to returning the type `name`.
+This simply takes a string s as an input and returns the corresponding symbol based on the cases. It uses a switch to match the string against keywords, data types, and operators. If 	it does not match with any of the cases, the function returns the type “name.”
 
 
 
