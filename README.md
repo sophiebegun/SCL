@@ -98,6 +98,27 @@ This function processes a line of text character by character, showing string do
 ### `Map`
 This simply takes a string s as an input and returns the corresponding symbol based on the cases. It uses a switch to match the string against keywords, data types, and operators. If 	it does not match with any of the cases, the function returns the type “name.”
 
+# Parser
+
+The **Parser** takes the tokens created by the Lexer and creates an AST, an abstract syntax tree. An AST is a structure designed to show how code is layed out; it breaks down the code into parts and shows how they are related. Moreover, each part of a tree has one parent and several children nodes, distinguishing the roots and branches of the tree. Its main purpose is to make sure the code follows the grammar of the language, which was indicated by Lexer.
+
+### `FindEndBoundaryIndex`
+This searches for a matching closing brace that pairs with a start brace in a list of Symbol objects, starting with a specific index. It creates a counter to keep track of the braces. As it goes through the list, it increments the counter when coming across a start brace and decrements with an end brace. When the counter is 0, it shows that the matching closing brace was found, and the function returns the index. If there was no brace found, it throws an exception for the user.  
+
+### `HasParen`
+This checks if there is an opening ( in a list of symbols starting from a given index. It loops through the list from that index until it either finds  () or encounters the end of a line, returning true. The function  shows that the startindex is within the range to avoid out of bound errors. 
+
+
+### `Parse`
+This processes a list of symbols and makes an AST based on the different symbol types. IT loops through the list of symbols, going through function calls, definitions, declarations, assignments, loops, ifs, and return statements. The function makes a new AST node for each construct, links them to parent nodes, and manages scopes using a stack. The final result is an AST showing the structure of the code, which is printed using the PrintPretty function. It also addresses the complex types and parsing expressions. 
+		
+
+### `SetParent`
+Establishes a parent-child relationship between two ASTNode(s) by setting the parent node to the correct child node. If the child is null, an exception is thrown. If the parent is null, the child’s parent is set to null. This helps show the structure of the AST. 
+
+### `DoCLF`
+This processes a list of symbols to build an expression and connect it to an AST Node. It starts by getting a list of symbols until a { is encountered and putting them into a list, which is used to create an expression for the node. The node is linked to its parent by adding a child to the parent. This also shows a stack of parent nodes for context, temporarily updating the current parent to n. It returns the index. 
+				
 
 
 
