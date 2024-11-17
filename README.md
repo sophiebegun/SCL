@@ -60,5 +60,13 @@ The Lexer is essentially a symbol creator; it breaks the code into symbols, or t
 <ins> ParseDoubleToken: </ins>
        This method checks if the characters at a certain index are valid double tokens, meaning they have 2 symbols. It takes a string and an index as parameters, and returns a Symbol. It checks if the index is the last character of the line, and returns null if true. Then, it combines the character at the index with the next character to form a double token. A switch statement is carried out, which returns a new symbol based on token value. 
 
+<ins> AnalyzeLine: </ins>
+    This function processes a line of text character by character, showing string double tokens, numbers, identifiers, individual characters, accumulating the results in a list of Symbol objects. It skips whitespaces and uses a StringBuilder to collect characters between quotes, adding a “const” symbol to the list. It processes letters and numbers, using another StringBuilder to form tokens, mapping them to corresponding symbols. If a digiti/dot is shown, it collects the number and creates a new “number” symbol. It also checks for double tokens, and adds them to the list. It returns the list of Symbols.
+
+<ins> Map </ins> 
+     This simply takes a string s as an input and returns the corresponding symbol based on the cases. It uses a switch to match the string against keywords, data types, and operators. If 	it does not match with any of the cases, the function returns the type “name.”
+
+
+
 
    
