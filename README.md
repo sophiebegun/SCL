@@ -17,12 +17,12 @@ Moreover, to keep consistency and simplicity throughout the language, denoting a
 
 As any other language, SCL has lists, hashmaps, hashsets, and speciality functions. 
 * A hashmap, or hmap in SCL, behaves the same way as a dictionary, including a key and a value 
-* **Creating an hmap, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case hmap, and then the datatypes of both the key and the value, respectively. Lastly, the name is indicated.  Ex: S hmap int str m* 
+* *Creating an hmap, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case hmap, and then the datatypes of both the key and the value, respectively. Lastly, the name is indicated.  Ex: S hmap int str m* 
 * A hashset, or hset in SCL, behaves the same way as a hashset, using a key. 
-* **Creating an hset, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case hset, and then the datatype used. Lastly, the name is indicated.  Ex: S hset int h* 
+* *Creating an hset, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case hset, and then the datatype used. Lastly, the name is indicated.  Ex: S hset int h* 
 * A list, or lst in SCL, behaves the same way as a list.
-* **Creating a lst, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case lst, and then the datatype used. Lastly, the name is indicated.  Ex: S lst int l*
-* **This is some sample code, which creates list l and adds 4 strings to it. Then it removes the third time, “hello3” and updates the second item to “helo2a”. The loop goes through each item in the list and prints each value.*
+* *Creating a lst, like any form of state, would include an “S’ at the beginning to denote that you are using state. After the S would come the datatype, in this case lst, and then the datatype used. Lastly, the name is indicated.  Ex: S lst int l*
+* *This is some sample code, which creates list l and adds 4 strings to it. Then it removes the third time, “hello3” and updates the second item to “helo2a”. The loop goes through each item in the list and prints each value.*
 F add(l,"hello1")
 F add(l,"hello2")
 F add(l,"hello3")
@@ -41,12 +41,24 @@ S i = i + 1
  In addition to several key data types, SCL includes specialized functions like add(), get(), set(), rem() to add, receive, assign, and remove elements from all 3 data types above.
 ** there must be an F in front of all built in functions
 * The add() function requires the name of the list,hashset, or hashmap and what you’re adding to it. 
-* **In a hashmap you must specify your key as well*
-* **Ex: F add(m,2,”hello2”)*
+* *In a hashmap you must specify your key as well*
+* *Ex: F add(m,2,”hello2”)*
 * The get() function allows you to receive an element from a list, hashset, or hashmap.Requires name of the list and position you plan on getting element.
-* **Ex: F get(l, i)*
+* *Ex: F get(l, i)*
 * The set() function acts as an assignment operator, because SCL does not have an “=” like c#, for example.
-* **Ex: F set(l, i)*
+* *Ex: F set(l, i)*
 
 Expressions are used in any one of these features, and show a combination of variables and values that evaluate to a single value. In SCL, they can be arithmetic or conditional or can consist of more complex state, conditionality, and looping. For example, in a ‘C’ statement there must be a conditional, or boolean expression, or it will not compile.
 
+# Lexer
+
+The Lexer is essentially a symbol creator; it breaks the code into symbols, or tokens. Some symbols may include an equal sign (=) for assignment or a comparison operator (==). Furthermore, it simplifies the process for the parser by converting raw code into pieces that are simpler to understand. In this lexer, there are 4 functions that carry out each of these processes.
+
+<ins> Analyze: </ins>
+         Essentially, this method processes a block of text by breaking it down into individual lines and collects the results in a list of symbols. A new list is made to store those symbols and a StringReader is used to read the string from a stream and calls “AnalyzeLine” to process those lines. Those lines are added to a temporary list, which is then added to the main list. 
+
+<ins> ParseDoubleToken: </ins>
+       This method checks if the characters at a certain index are valid double tokens, meaning they have 2 symbols. It takes a string and an index as parameters, and returns a Symbol. It checks if the index is the last character of the line, and returns null if true. Then, it combines the character at the index with the next character to form a double token. A switch statement is carried out, which returns a new symbol based on token value. 
+
+
+   
